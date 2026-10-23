@@ -66,6 +66,7 @@ p{margin:0}
 .util-right{display:flex;gap:4px;align-items:center}
 .fs-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:2px 8px;font:inherit;cursor:pointer;min-width:32px}
 .fs-btn[aria-pressed="true"]{background:var(--pine);color:var(--on-pine);border-color:var(--pine)}
+.util-groups{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .util a{text-decoration:none;padding:0 6px}
 .util a:hover{color:var(--ink)}
 
@@ -134,6 +135,11 @@ header.site.open .mega{display:block}
 .tag.warn{background:var(--warn-soft);color:var(--warn)}
 .tag.bad{background:var(--bad-soft);color:var(--bad)}
 .phase{font-size:.75rem;font-weight:700;color:var(--pine-ink);border:1px solid var(--pine);border-radius:99px;padding:1px 9px;white-space:nowrap}
+.phase.p2{color:var(--amber);border-color:var(--amber);border-style:dashed}
+.mtag{display:inline-block;font-size:.6875rem;font-weight:600;color:var(--amber);border:1px dashed var(--amber);border-radius:99px;padding:0 6px;margin-left:6px;line-height:1.5;vertical-align:1px;white-space:nowrap}
+td.flag{background:var(--warn-soft);color:var(--warn);font-weight:600}
+.soon{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:36px 28px;display:grid;gap:10px}
+.soon h2{margin:0}
 .note{background:var(--amber-soft);border-radius:var(--r);padding:14px 18px;font-size:.9375rem;color:var(--ink)}
 .note strong{color:var(--amber)}
 .ph{border:1.5px dashed var(--line);border-radius:var(--r);padding:20px;color:var(--muted);font-size:.9375rem;background:var(--surface)}
@@ -237,7 +243,8 @@ section{scroll-margin-top:90px}
 .crumb a{text-decoration:none}
 .crumb a:hover{color:var(--hero-ink)}
 .sub-head h1{font-size:clamp(1.75rem,3.6vw,2.5rem);margin-top:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.sub-head .phase{color:#E9B46F;border-color:#E9B46F;font-family:var(--f-body)}
+.sub-head .phase{color:#A9E0D9;border-color:#A9E0D9;font-family:var(--f-body)}
+.sub-head .phase.p2{color:#E9B46F;border-color:#E9B46F}
 .sub-head p{color:var(--hero-muted);margin-top:10px;max-width:46em;font-size:1.0625rem}
 .sub-body{display:grid;grid-template-columns:230px 1fr;gap:48px;padding-block:44px 80px}
 .lnb{position:sticky;top:96px;align-self:start;min-width:0}
@@ -378,11 +385,18 @@ footer.site{background:var(--surface);border-top:1px solid var(--line);font-size
 <div class="util">
   <div class="wrap">
     <div class="util-left"><span class="draft-pill">시안</span><span>공식 개설 전 검토용 화면입니다</span></div>
+    <div class="util-groups">
+    <div class="util-right" role="group" aria-label="보기 모드">
+      <span>보기</span>
+      <button class="fs-btn mode-btn" data-mode="plan" aria-pressed="true" type="button">전체 기획안</button>
+      <button class="fs-btn mode-btn" data-mode="open" aria-pressed="false" type="button">오픈 화면(1단계)</button>
+    </div>
     <div class="util-right" role="group" aria-label="글자 크기">
       <span>글자 크기</span>
       <button class="fs-btn" data-fs="md" aria-pressed="true" type="button">보통</button>
       <button class="fs-btn" data-fs="lg" aria-pressed="false" type="button">크게</button>
       <button class="fs-btn" data-fs="xl" aria-pressed="false" type="button">아주 크게</button>
+    </div>
     </div>
   </div>
 </div>
@@ -415,17 +429,16 @@ footer.site{background:var(--surface);border-top:1px solid var(--line);font-size
   <div class="wrap ft">
     <div>
       <div class="ft-links">
-        <a href="#about-greeting">협회 소개</a>
-        <a href="#privacy" class="strong">개인정보처리방침</a>
+        <a href="#privacy" class="strong">개인정보 처리방침</a>
         <a href="#terms">이용약관</a>
-        <a href="#board-rules">게시판 운영규칙</a>
+        <a href="#member-roles">이용 권한 안내</a>
         <a href="#location">오시는 길</a>
-        <a href="#roadmap">홈페이지 구축 로드맵</a>
+        <a href="#roadmap">구축 로드맵·단계 구분</a>
       </div>
       <address>
         대한노인낙상예방협회 (KAEFP) · 회장 윤범철<br>
         주소 [협회 주소 확정 후 기재] · 대표전화 [확정 예정] · 이메일 [확정 예정]<br>
-        개인정보 보호책임자 [지정 후 기재]
+        개인정보 보호책임자 [지정 후 기재] · 개인정보 처리 수탁자 케어씽크
       </address>
       <p style="margin-top:10px">© 대한노인낙상예방협회. 한 걸음의 안전, 평생의 독립.</p>
     </div>
@@ -452,78 +465,90 @@ const I = {
   bath:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 34h48v6a10 10 0 0 1-10 10H18A10 10 0 0 1 8 40z"/><path d="M14 34V14a5 5 0 0 1 10 0"/><path d="M18 50l-3 6m31-6 3 6"/><path d="M40 26h12" stroke="var(--amber)"/><path d="M40 22v8m12-8v8" stroke="var(--amber)"/></svg>',
   walk:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="10" r="5"/><path d="m32 18-2 16 8 8 2 14m-10-22-8 22m10-34 10 10 6-2m-16-8-8 8"/><path d="M6 58h52" stroke="var(--amber)"/></svg>',
   rise:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 54h52"/><circle cx="22" cy="30" r="5"/><path d="M26 36c4 2 8 6 10 12h10M20 38l-4 16m26-24V18h10" /><path d="M42 18h12v36" stroke="var(--amber)"/></svg>',
-  tablet:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="40" height="52" rx="5"/><path d="M20 20h24M20 28h24M20 36h14"/><path d="m24 46 4 4 10-10" stroke="var(--amber)"/></svg>'
+  tablet:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="40" height="52" rx="5"/><path d="M20 20h24M20 28h24M20 36h14"/><path d="m24 46 4 4 10-10" stroke="var(--amber)"/></svg>',
+  play:'<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4" y="8" width="32" height="24" rx="4"/><path d="m17 15 8 5-8 5z" fill="currentColor"/></svg>'
 };
 
-/* ───────── 메뉴 구조 (7개 대메뉴) ───────── */
+/* ───────── 메뉴 구조 (협회 개선안 7개 대메뉴) ───────── */
 const MENU = [
-  {id:'about',label:'협회 소개',items:[['about-greeting','회장 인사말'],['vision','비전·미션·핵심가치'],['history','설립목적·연혁'],['org','조직도·임원'],['rules','정관·규정'],['location','오시는 길']]},
-  {id:'biz',label:'3대 핵심사업',items:[['biz-local','지자체 낙상예방교육'],['biz-center','낙상체험관 설치사업'],['biz-standard','표준화 교육모델·인프라'],['biz-propose','사업제안·협력신청'],['biz-progress','추진현황·성과']]},
-  {id:'info',label:'낙상예방 정보',items:[['info-falls','낙상 바로알기'],['selfcheck','낙상위험 자가점검'],['info-home','생활환경 안전수칙'],['info-after','넘어졌을 때 대처법'],['info-exercise','K-Fall Fit 운동']]},
-  {id:'edu',label:'교육·지도자',items:[['edu-courses','교육과정 안내'],['edu-apply','교육 신청'],['edu-leader','지도자 양성체계'],['edu-leaders','지도자 명단'],['edu-cert','수료 확인']]},
-  {id:'member',label:'회원·기관',items:[['member-join','회원가입 안내'],['member-dir','회원 디렉터리'],['member-org','기관인증 신청'],['member-roles','이용 권한 안내']]},
-  {id:'research',label:'연구·정책',items:[['library','교육자료실'],['research-papers','연구자료'],['research-policy','정책제안·자료'],['research-partners','협력기관']]},
-  {id:'community',label:'소통마당',items:[['notice','공지사항'],['board-square','회원 소통광장'],['board-idea','협회 발전 제안'],['board-private','비공개 상담·민원'],['faq','자주 묻는 질문']]}
+  {id:'about',label:'협회 소개',items:[['about-greeting','인사말'],['vision','비전·미션·핵심가치'],['history','연혁'],['org','조직도'],['location','오시는 길']]},
+  {id:'biz',label:'3대 핵심사업',items:[['biz-local','① 지자체 예방교육'],['biz-center','② 낙상체험관 설치'],['biz-standard','③ 표준화 모델·인프라'],['biz-propose','④ 사업제안·협력신청'],['biz-progress','⑤ 추진현황 및 성과']]},
+  {id:'info',label:'낙상예방 정보',items:[['selfcheck','낙상위험 자가점검'],['info-life','생활속 낙상예방'],['info-kfallfit','K-Fall Fit 가이드'],['info-video','영상자료실']]},
+  {id:'edu',label:'교육·지도자',items:[['edu-courses','지도자 양성과정 안내'],['edu-apply','교육 신청'],['edu-cert','수료·자격 검증'],['edu-space','지도자 전용 공간']]},
+  {id:'member',label:'회원·기관',items:[['member-join','회원가입 안내'],['member-org','기관인증 신청'],['member-partners','협력 기관 디렉터리'],['mypage','마이페이지']]},
+  {id:'research',label:'연구·정책',items:[['research-policy','정책 제안 및 연구 보고서'],['research-stats','국내외 손상예방 통계'],['research-library','학술자료실']]},
+  {id:'community',label:'소통마당',items:[['notice','공지사항·행사'],['board-square','소통광장(후기)'],['board-idea','발전제안'],['board-private','비공개 Q&A·민원']]}
 ];
-const EXTRA = [['privacy','개인정보처리방침'],['terms','이용약관'],['board-rules','게시판 운영규칙'],['roadmap','홈페이지 구축 로드맵']];
+const EXTRA = [['privacy','개인정보 처리방침'],['terms','이용약관'],['member-roles','이용 권한 안내'],['roadmap','구축 로드맵·단계 구분']];
 
 /* ───────── 예시 데이터 ───────── */
 const NOTICES = [
-  {c:'교육',t:'2026년 하반기 낙상예방지도자 교육과정 수강생 모집',d:'2026-10-20',pin:1},
+  {c:'교육',t:'2026년 하반기 낙상예방지도자 교육과정 안내',d:'2026-10-20',pin:1},
   {c:'공모',t:'지자체 낙상예방 협력사업 참여 기관 모집 안내',d:'2026-10-16',pin:1},
-  {c:'협회소식',t:'협회 정회원 및 기관회원 가입 안내',d:'2026-10-14'},
-  {c:'일정',t:'제1차 정기 이사회 개최 안내',d:'2026-10-10'},
+  {c:'협회소식',t:'협회 회원 및 기관회원 가입 안내',d:'2026-10-14'},
+  {c:'행사',t:'제1차 정기 이사회 개최 안내',d:'2026-10-10'},
   {c:'교육',t:'[변경] 지도자 기본과정 3회차 교육장소 변경 안내',d:'2026-10-08'},
   {c:'발간',t:'어르신 낙상예방 생활수칙 리플릿(초판) 공개',d:'2026-10-02'},
   {c:'모집',t:'낙상예방 교육 인증기관 1기 모집 사전 안내',d:'2026-09-25'},
   {c:'개정',t:'교육자료 「가정 내 위험요인 점검표」 v1.1 개정 안내',d:'2026-09-18'}
 ];
 const EVENTS = [
-  {m:'11',d:'05',t:'낙상예방지도자 기본과정 신청 마감',s:'교육 · 온라인 접수'},
+  {m:'11',d:'05',t:'낙상예방지도자 기본과정 안내 설명회',s:'교육 · 장소 확정 후 공지'},
   {m:'11',d:'14',t:'지자체 협력사업 설명회',s:'사업 · 장소 확정 후 공지'},
-  {m:'11',d:'28',t:'제1차 정기총회',s:'일정 · 회원 대상'}
+  {m:'11',d:'28',t:'제1차 정기총회',s:'행사 · 회원 대상'}
 ];
 const BOARDS = {
-  'board-square':{title:'회원 소통광장',desc:'활동 후기, 우수사례, 현장 의견을 나누는 공간입니다.',rows:[
+  'board-square':{rows:[
     {t:'경로당 순회 교육 후기: 의자 일어서기 시범이 가장 반응이 좋았습니다',a:'김○○ 지도자',d:'2026-10-19',s:'공개',n:12},
     {t:'[우수사례] 보건소 연계 낙상예방 8주 프로그램 운영 결과 공유',a:'○○시 보건소',d:'2026-10-11',s:'공개',n:7},
     {t:'욕실 미끄럼 방지 매트 선택 기준, 현장에서는 어떻게 안내하시나요?',a:'이○○ 회원',d:'2026-10-03',s:'공개',n:4}]},
-  'board-idea':{title:'협회 발전 제안',desc:'신규사업, 교육 개선, 지역사업 아이디어를 제안해 주세요. 담당 위원회가 검토 후 답변합니다.',rows:[
-    {t:'농촌 지역 이동형 낙상체험 차량 운영 제안',a:'박○○ 회원',d:'2026-10-18',s:'검토중',o:'사업협력위원회'},
-    {t:'지도자 보수교육 온라인 병행 요청',a:'최○○ 지도자',d:'2026-10-09',s:'답변완료',o:'교육위원회'},
+  'board-idea':{rows:[
+    {t:'농촌 지역 이동형 낙상체험 차량 운영 제안',a:'박○○ 회원',d:'2026-10-18',s:'검토',o:'사업협력위원회'},
+    {t:'지도자 보수교육 온라인 병행 요청',a:'최○○ 지도자',d:'2026-10-09',s:'완료',o:'교육위원회'},
     {t:'복지관 연계 보호자 교육 과정 신설 제안',a:'정○○ 회원',d:'2026-10-02',s:'접수',o:'미지정'}]},
-  'board-private':{title:'비공개 상담·민원',desc:'회원 자격, 교육 수료, 인증, 개인정보 관련 문의는 작성자와 담당자만 볼 수 있습니다.',rows:[
+  'board-private':{rows:[
     {t:'수료증 재발급 문의',a:'김**',d:'2026-10-21',s:'접수',o:'사무국',p:1},
-    {t:'기관회원 자격 변경 요청',a:'○○복지관',d:'2026-10-15',s:'검토중',o:'인증위원회',p:1},
-    {t:'회원정보 열람 및 정정 요구',a:'이**',d:'2026-10-07',s:'답변완료',o:'개인정보 보호책임자',p:1}]}
+    {t:'기관회원 자격 변경 요청',a:'○○복지관',d:'2026-10-15',s:'검토',o:'인증위원회',p:1},
+    {t:'회원정보 열람 및 정정 요구',a:'이**',d:'2026-10-07',s:'완료',o:'개인정보 보호책임자',p:1}]}
 };
 const LIB = [
   {t:'어르신 낙상예방 생활수칙 리플릿',org:'대한노인낙상예방협회',d:'2026-10-02',v:'1.0',to:'어르신·보호자',cr:'출처 표시 후 비영리 배포 가능',perm:'공개'},
   {t:'가정 내 낙상 위험요인 점검표',org:'대한노인낙상예방협회',d:'2026-09-18',v:'1.1',to:'방문 지도자·보호자',cr:'출처 표시 후 비영리 배포 가능',perm:'공개'},
-  {t:'K-Fall Fit 기본 운동 지도안 (8주)',org:'협회 교육위원회',d:'2026-09-01',v:'0.9 (검토본)',to:'낙상예방지도자',cr:'협회 저작물 · 재배포 불가',perm:'지도자'},
-  {t:'낙상 위험 선별·평가 도구 사용 지침',org:'협회 학술·정책위원회',d:'2026-08-20',v:'0.8 (검토본)',to:'정회원·지도자',cr:'협회 저작물 · 재배포 불가',perm:'회원'},
-  {t:'지자체 낙상예방교육 사업 제안서 (표준안)',org:'대한노인낙상예방협회',d:'2026-10-14',v:'1.0',to:'지자체·보건소 담당자',cr:'사업 검토 목적 활용 가능',perm:'공개'}
+  {t:'지자체 낙상예방교육 사업 제안서 (표준안)',org:'대한노인낙상예방협회',d:'2026-10-14',v:'1.0',to:'지자체·보건소 담당자',cr:'사업 검토 목적 활용 가능',perm:'공개'},
+  {t:'낙상 위험 선별·평가 도구 사용 지침',org:'협회 학술·정책위원회',d:'2026-08-20',v:'0.8 (검토본)',to:'정회원·연구자',cr:'협회 저작물 · 재배포 불가',perm:'정회원·연구자'},
+  {t:'K-Fall Fit 기본 운동 지도안 (8주)',org:'협회 교육위원회',d:'2026-09-01',v:'0.9 (검토본)',to:'정회원·전문지도자',cr:'협회 저작물 · 재배포 불가',perm:'정회원·연구자'}
 ];
-const LEADERS = [
-  {n:'홍○○',r:'서울',g:'전문 지도자',st:'수료',pub:'공개 동의'},
-  {n:'김○○',r:'경기',g:'기본 지도자',st:'수료',pub:'공개 동의'},
-  {n:'이○○',r:'대구',g:'기본 지도자',st:'과정 중',pub:'비공개'},
-  {n:'박○○',r:'광주',g:'전문 지도자',st:'보수교육 필요',pub:'공개 동의'}
+const PARTNERS = [
+  {n:'○○구 보건소',r:'서울',k:'지자체 예방교육',s:'협약 체결'},
+  {n:'○○시 노인복지관',r:'경기',k:'지자체 예방교육',s:'협약 체결'},
+  {n:'○○대학교 재활과학연구소',r:'대구',k:'표준화 모델 연구',s:'협의 중'}
 ];
+
+/* ───────── 단계(Phase) ─────────
+   ph:1 = 1단계·무상 구축(누구나 보는 안내·자료, 공지, 가입, 문의)
+   ph:2 = 2단계 이후·정식 계약(로그인·신청 처리·개인 기록 저장)  */
+let MODE = 'plan';
+try{ MODE = localStorage.getItem('kaefp-mode')==='open' ? 'open' : 'plan'; }catch(e){}
 
 /* ───────── 헬퍼 ───────── */
 const $ = (s,el=document)=>el.querySelector(s);
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const findParent = id=>MENU.find(m=>m.items.some(i=>i[0]===id));
-const statusTag = s=>`<span class="tag ${s==='답변완료'?'ok':s==='검토중'?'warn':s==='접수'?'amber':''}">${esc(s)}</span>`;
-const permTag = p=>`<span class="tag ${p==='공개'?'pine':p==='회원'?'amber':'warn'}">${p==='공개'?'누구나':p==='회원'?'회원 전용':'지도자 전용'}</span>`;
+const statusTag = s=>`<span class="tag ${s==='완료'?'ok':s==='검토'?'warn':s==='접수'?'amber':''}">${esc(s)}</span>`;
+const permTag = p=>`<span class="tag ${p==='공개'?'pine':'amber'}">${p==='공개'?'누구나':p+' 전용'}</span>`;
+const phTag = pg=>pg.ph===1?`<span class="phase">1단계 · 무상 구축${pg.dag?' †':''}</span>`:`<span class="phase p2">2단계 이후 · 정식 계약${pg.road?' · '+pg.road:''}</span>`;
+const LEGAL_DAG = '이름·연락처를 받는 기능입니다. 개인정보 처리방침을 공개하고(개인정보 보호법 제30조제2항) 개인정보 처리 위탁 계약을 문서로 맺은 뒤(제26조제1항) 접수를 시작합니다.';
 const demoForm = (id,fields,btn,okMsg)=>`<form class="f" id="${id}" data-demo="${esc(okMsg)}">${fields}
-  <label class="chk"><input type="checkbox" id="${id}-agree" required><span>[필수] 개인정보 수집·이용에 동의합니다. 수집 항목, 이용 목적, 보유 기간은 개인정보처리방침에 따릅니다.</span></label>
+  <label class="chk"><input type="checkbox" id="${id}-agree" required><span>[필수] 개인정보 수집·이용에 동의합니다. 수집 항목, 이용 목적, 보유 기간은 <a href="#privacy">개인정보 처리방침</a>에 따릅니다.</span></label>
   <div><button class="btn btn-primary" type="submit">${btn}</button></div>
-  <p class="muted" style="font-size:.8125rem">시안 화면입니다. 실제 접수는 개인정보처리방침·이용약관 게시와 위탁계약 체결 후 열립니다. 입력하신 내용은 저장되거나 전송되지 않습니다.</p></form>`;
-const locked = (what,phase)=>`<div class="ph" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><span class="lock">${I.lock} ${what}</span><span class="phase">${phase} 개설</span></div>`;
+  <p class="muted" style="font-size:.8125rem">시안 화면입니다. 입력하신 내용은 저장되거나 전송되지 않습니다.</p></form>`;
+const stage2 = what=>`<div class="ph" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><span class="lock">${I.lock} ${what}</span><span class="phase p2">2단계 이후</span></div>`;
 
 /* ───────── 홈 ───────── */
+function tile(id,icon,label,sub){
+  const pg = P[id], soon = MODE==='open' && pg && pg.ph===2;
+  return `<li><a href="#${id}">${I[icon]}<span>${label}<small>${soon?'준비 중':sub}</small></span></a></li>`;
+}
 function homeHTML(){
   const n = NOTICES.slice(0,5).map(x=>`<li><span class="tag ${x.pin?'amber':'pine'}">${x.c}</span><a class="t" href="#notice">${esc(x.t)}</a><time>${x.d.slice(5).replace('-','.')}</time></li>`).join('');
   const ev = EVENTS.map(e=>`<div class="cal-row"><div class="cal-d"><small>${e.m}월</small><b>${e.d}</b></div><div><p>${esc(e.t)}</p><span>${esc(e.s)}</span></div></div>`).join('');
@@ -536,7 +561,7 @@ function homeHTML(){
       <p class="hero-en">Every Safe Step, a More Independent Life.</p>
       <p class="hero-lead">낙상예방이 개인의 노력을 넘어 사회의 기본 안전망이 되도록, 지역사회와 함께 실천합니다.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#selfcheck">낙상위험 자가점검 →</a>
+        <a class="btn btn-primary" href="#info-life">생활속 낙상예방 →</a>
         <a class="btn btn-ghost" href="#biz-local">지자체 협력 안내</a>
       </div>
     </div>
@@ -561,12 +586,12 @@ function homeHTML(){
 
 <nav class="quick" aria-label="주요 서비스 바로가기">
   <ul class="wrap" style="padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))">
-    <li><a href="#selfcheck">${I.check}<span>낙상위험 자가점검<small>2분 소요</small></span></a></li>
-    <li><a href="#edu-apply">${I.edu}<span>지도자 교육신청<small>과정·일정 확인</small></span></a></li>
-    <li><a href="#library">${I.doc}<span>교육자료 다운로드<small>공개 자료실</small></span></a></li>
-    <li><a href="#biz-propose">${I.city}<span>지자체 협력사업<small>제안·협력신청</small></span></a></li>
-    <li><a href="#member-join">${I.member}<span>회원가입·회원마당<small>정회원·기관회원</small></span></a></li>
-    <li><a href="#board-idea">${I.talk}<span>협회에 바란다<small>발전 제안</small></span></a></li>
+    ${tile('selfcheck','check','낙상위험 자가점검','2분 소요')}
+    ${tile('edu-apply','edu','지도자 교육신청','과정·일정 확인')}
+    ${tile('research-library','doc','교육자료 다운로드','학술자료실')}
+    ${tile('biz-propose','city','지자체 협력사업','제안·협력신청')}
+    ${tile('member-join','member','회원가입·회원마당','준회원·정회원')}
+    ${tile('board-idea','talk','협회에 바란다','발전제안')}
   </ul>
 </nav>
 
@@ -614,10 +639,10 @@ function homeHTML(){
 
 <section class="band" aria-labelledby="newsTitle">
   <div class="wrap">
-    <div class="sec-head"><div><span class="eyebrow">Notice</span><h2 id="newsTitle">공지사항 · 협회소식</h2></div><a class="more" href="#notice">전체 공지 →</a></div>
+    <div class="sec-head"><div><span class="eyebrow">Notice</span><h2 id="newsTitle">공지사항 · 행사</h2></div><a class="more" href="#notice">전체 공지 →</a></div>
     <div class="news">
       <div class="panel"><div class="panel-h"><h3>최근 공지</h3><span class="tag">예시 게시물</span></div><ul class="list">${n}</ul></div>
-      <div class="panel"><div class="panel-h"><h3>다가오는 일정</h3><span class="tag">예시</span></div><div class="cal">${ev}</div></div>
+      <div class="panel"><div class="panel-h"><h3>다가오는 행사</h3><span class="tag">예시</span></div><div class="cal">${ev}</div></div>
     </div>
   </div>
 </section>
@@ -637,7 +662,7 @@ function bizArt(k){
 
 /* ───────── 서브 페이지 ───────── */
 const P = {};
-P['about-greeting'] = {t:'회장 인사말',lead:'대한노인낙상예방협회 홈페이지를 찾아주신 여러분께 감사드립니다.',phase:'1단계',h:()=>`
+P['about-greeting'] = {t:'인사말',ph:1,lead:'대한노인낙상예방협회 홈페이지를 찾아주신 여러분께 감사드립니다.',h:()=>`
 <div class="greet">
   <figure><img src="assets/president.jpg" alt="윤범철 회장 프로필 사진" width="640" height="640"><figcaption><b>윤범철</b>대한노인낙상예방협회 회장</figcaption></figure>
   <div class="prose">
@@ -663,7 +688,7 @@ P['about-greeting'] = {t:'회장 인사말',lead:'대한노인낙상예방협회
   </div>
 </div>`};
 
-P['vision'] = {t:'비전·미션·핵심가치',lead:'낙상예방을 일상으로, 안전한 노년을 사회의 기본으로.',phase:'1단계',h:()=>`
+P['vision'] = {t:'비전·미션·핵심가치',ph:1,lead:'낙상예방을 일상으로, 안전한 노년을 사회의 기본으로.',h:()=>`
 <section><span class="eyebrow">Vision Statement</span><p class="keymsg" style="margin-top:12px">모든 고령자가 낙상의 위험과 두려움에서 벗어나, 독립적이고 활기찬 삶을 누리는 사회</p><p class="muted" style="margin-top:10px;font-style:italic">A society where every older adult thrives independently, free from the risk and fear of falls.</p></section>
 <section><span class="eyebrow">Mission Statement</span><h2 style="margin-top:8px">협회의 사명</h2><div class="prose"><p>전문적인 지역사회 낙상 예방 지도자를 양성하고, 근거 기반의 중재 프로그램을 실행하며, 고령 인구의 안전과 건강을 보장하는 공중 보건 정책을 촉구함으로써 국가적인 낙상 예방을 선도합니다.</p><p class="muted" style="font-style:italic">Our mission is to advance fall prevention across the nation by cultivating specialized community leaders, implementing evidence-based intervention programs, and advocating for public health policies that ensure the safety and well-being of the aging population.</p></div></section>
 <section><span class="eyebrow">Core Values</span><h2 style="margin-top:8px">핵심 가치</h2><div class="grid3">
@@ -673,11 +698,11 @@ P['vision'] = {t:'비전·미션·핵심가치',lead:'낙상예방을 일상으�
 </div></section>
 <section><div class="grid2"><div class="card"><span class="k">주제어</span><h3>낙상예방을 일상으로, 안전한 노년을 사회의 기본으로</h3></div><div class="card"><span class="k">표어</span><h3>한 걸음의 안전, 평생의 독립</h3><p>Every Safe Step, a More Independent Life.</p></div></div></section>`};
 
-P['history'] = {t:'설립목적·연혁',lead:'협회가 출범한 이유와 걸어온 길을 기록합니다.',phase:'1단계',h:()=>`
+P['history'] = {t:'연혁',ph:1,lead:'협회가 출범한 이유와 걸어온 길을 기록합니다.',h:()=>`
 <section class="prose"><h2>설립 목적</h2><p>낙상 예방의 중요성은 널리 알려져 있으나, 이를 현장에서 체계적이고 지속적으로 실천할 기반은 아직 부족합니다. 대한노인낙상예방협회는 이 간극을 메우기 위해 출범하였습니다.</p></section>
-<section><h2>연혁</h2><div class="ph">설립연혁 자료를 받으면 연도별 타임라인으로 게시합니다. (예: 창립총회, 법인 설립, 첫 지도자 과정 개설, 지자체 협약 등)</div></section>`};
+<section><h2>연혁</h2><div class="ph">설립연혁 자료를 받으면 연도별 타임라인으로 게시합니다.</div></section>`};
 
-P['org'] = {t:'조직도·임원',lead:'공개 승인된 임원 명단만 게시합니다.',phase:'1단계',h:()=>`
+P['org'] = {t:'조직도',ph:1,lead:'공개 승인된 임원 명단만 게시합니다.',h:()=>`
 <section><div class="org" aria-label="조직도 예시">
   <div class="org-box top">회장</div><div class="org-line"></div>
   <div class="org-row"><div class="org-box">부회장</div><div class="org-box">감사</div></div><div class="org-line"></div>
@@ -686,19 +711,11 @@ P['org'] = {t:'조직도·임원',lead:'공개 승인된 임원 명단만 게시
 </div></section>
 <p class="note"><strong>확정 필요</strong> 위 구성은 화면 배치를 보여 주는 예시입니다. 조직도·임원 직책·공개 승인된 명단을 받으면 반영합니다.</p>`};
 
-P['rules'] = {t:'정관·규정',lead:'정관, 회원가입·회비 규정, 교육·인증 규정을 게시합니다.',phase:'1단계',h:()=>`
-<div class="tbl-wrap"><table><thead><tr><th>규정명</th><th>시행일</th><th>상태</th></tr></thead><tbody>
-<tr><td>대한노인낙상예방협회 정관</td><td class="num">확정 후 기재</td><td><span class="tag warn">자료 수령 대기</span></td></tr>
-<tr><td>회원가입 및 회비 규정</td><td class="num">확정 후 기재</td><td><span class="tag warn">자료 수령 대기</span></td></tr>
-<tr><td>교육과정·수료 및 자료 배포 기준</td><td class="num">확정 후 기재</td><td><span class="tag warn">자료 수령 대기</span></td></tr>
-<tr><td>게시판 운영규칙</td><td class="num">확정 후 기재</td><td><a href="#board-rules">초안 보기</a></td></tr>
-</tbody></table></div>`};
-
-P['location'] = {t:'오시는 길',lead:'협회 사무국 위치와 연락처입니다.',phase:'1단계',h:()=>`
-<div class="grid2"><div class="card"><h3>주소</h3><p>[협회 주소 확정 후 기재]</p></div><div class="card"><h3>연락처</h3><p>대표전화 [확정 예정]<br>이메일 [확정 예정]<br>운영시간 평일 09:00–18:00 (예시)</p></div></div>
+P['location'] = {t:'오시는 길',ph:1,lead:'협회 사무국 위치와 연락처입니다.',h:()=>`
+<div class="grid2"><div class="card"><h3>주소</h3><p>[협회 주소 확정 후 기재]</p></div><div class="card"><h3>연락처</h3><p>대표전화 [확정 예정]<br>이메일 [확정 예정]</p></div></div>
 <div class="ph">지도는 주소 확정 후 지도 서비스 링크로 연결합니다.</div>`};
 
-P['biz-local'] = {t:'지자체 낙상예방교육',lead:'지방자치단체·보건소·노인복지관·경로당 담당자가 사업의 필요성과 협력 방법을 바로 이해할 수 있도록 구성했습니다.',phase:'1단계',h:()=>`
+P['biz-local'] = {t:'지자체 예방교육',ph:1,lead:'지방자치단체·보건소·노인복지관·경로당 담당자가 사업의 필요성과 협력 방법을 바로 이해할 수 있도록 구성했습니다.',h:()=>`
 <p class="keymsg">낙상예방교육을 어르신의 일상과 가장 가까운 곳으로</p>
 <section class="prose"><h2>사업 소개</h2><p>중앙 정부와 각 지방자치단체와 협력하여 보건소, 복지관, 경로당 등 지역 거점을 중심으로 교육을 확대합니다. 전국 어디서나 어르신들이 쉽게 예방 교육을 받으실 수 있도록 하는 것이 목표입니다.</p></section>
 <section><h2>지역별 교육 운영모델</h2><div class="grid3">
@@ -713,12 +730,12 @@ P['biz-local'] = {t:'지자체 낙상예방교육',lead:'지방자치단체·보
 </tbody></table></div></section>
 <section><h2>강사 파견·협력 절차</h2><ol class="steps"><li><b>협력 문의</b><span>온라인 신청 또는 전화</span></li><li><b>운영 협의</b><span>대상·횟수·장소 조율</span></li><li><b>지도자 배정</b><span>지역 인증 지도자 파견</span></li><li><b>결과 보고</b><span>참여·평가 결과 공유</span></li></ol></section>
 <section><h2>자료와 신청</h2><div class="grid2">
-  <div class="card"><h3>사업 제안서 (표준안)</h3><p>지자체 예산 편성과 내부 보고에 쓸 수 있는 제안서 양식입니다.</p><p style="margin-top:12px"><a class="btn btn-sm btn-ghost" href="#library">교육자료실에서 받기</a></p></div>
+  <div class="card"><h3>사업 제안서 (표준안)</h3><p>지자체 예산 편성과 내부 보고에 쓸 수 있는 제안서 양식입니다.</p><p style="margin-top:12px"><a class="btn btn-sm btn-ghost" href="#research-library">학술자료실에서 받기</a></p></div>
   <div class="card"><h3>강사 파견·협력 신청</h3><p>기관 정보와 희망 일정을 남겨 주시면 담당자가 연락드립니다.</p><p style="margin-top:12px"><a class="btn btn-sm btn-primary" href="#biz-propose">협력 신청하기</a></p></div>
 </div></section>
-<section><h2>지역별 추진현황</h2><div class="ph">사업이 시작되면 시·도별 참여 기관 수, 교육 횟수, 참여 어르신 수를 지도와 표로 공개합니다. <a href="#biz-progress">추진현황 페이지 →</a></div></section>`};
+<section><h2>지역별 추진현황</h2><div class="ph">사업이 시작되면 시·도별 참여 기관 수, 교육 횟수, 참여 어르신 수를 공개합니다. <a href="#biz-progress">추진현황 및 성과 →</a></div></section>`};
 
-P['biz-center'] = {t:'낙상체험관 설치사업',lead:'낙상이 일어나는 상황을 직접 보고, 안전하게 일어나는 법과 위험한 환경을 알아보는 법을 몸으로 익히는 공간입니다.',phase:'1단계',h:()=>`
+P['biz-center'] = {t:'낙상체험관 설치',ph:1,lead:'낙상이 일어나는 상황을 직접 보고, 안전하게 일어나는 법과 위험한 환경을 알아보는 법을 몸으로 익히는 공간입니다.',h:()=>`
 <p class="keymsg">듣는 예방에서 체험하고 실천하는 예방으로</p>
 <section><h2>체험관 구성 (안)</h2><div class="zone">
   <div class="card">${I.bath}<div><h3>생활환경 위험 체험존</h3><p>욕실·침실·문턱·조명 등 집 안의 위험요인을 직접 찾아보고 개선 방법을 익힙니다.</p></div></div>
@@ -731,10 +748,9 @@ P['biz-center'] = {t:'낙상체험관 설치사업',lead:'낙상이 일어나는
   <div class="card"><span class="k">STEP 1</span><h3>거점 지역 선정</h3><p>지자체 수요와 접근성을 기준으로 후보지를 협의합니다.</p></div>
   <div class="card"><span class="k">STEP 2</span><h3>공간 설계·조성</h3><p>표준 체험존 구성안을 지역 여건에 맞게 조정합니다.</p></div>
   <div class="card"><span class="k">STEP 3</span><h3>운영·평가</h3><p>인증 지도자가 운영하고, 체험 전후 변화를 기록합니다.</p></div>
-</div></section>
-<section><h2>체험관 예약</h2>${locked('체험관 예약·운영 시스템','4단계')}</section>`};
+</div></section>`};
 
-P['biz-standard'] = {t:'표준화 교육모델·인프라',lead:'낙상 위험 평가, 운동 프로그램, 생활 환경 개선을 아우르는 한국형 표준 모델을 질병관리청·중앙손상관리센터와 협력하여 개발합니다.',phase:'1단계',h:()=>`
+P['biz-standard'] = {t:'표준화 모델·인프라',ph:1,lead:'낙상 위험 평가, 운동 프로그램, 생활 환경 개선을 아우르는 한국형 표준 모델을 질병관리청·중앙손상관리센터와 협력하여 개발합니다.',h:()=>`
 <p class="keymsg">어디에서 누구에게 배우더라도 일관된 낙상예방교육</p>
 <section><h2>한국형 표준 낙상예방 관리모델 (안)</h2><ol class="steps">
   <li><b>위험 선별</b><span>간단한 질문과 관찰로 위험군을 빠르게 찾습니다.</span></li>
@@ -750,31 +766,23 @@ P['biz-standard'] = {t:'표준화 교육모델·인프라',lead:'낙상 위험 �
   <div class="card"><h3>교육자료 표준화</h3><p>버전 관리되는 공통 교안과 자료</p></div>
   <div class="card"><h3>성과관리·연구협력</h3><p>공통 지표와 연구기관 협력</p></div>
 </div></section>
-<section><h2>정회원 전용 자료</h2>${locked('회비를 납부한 정회원만 상세 지침·도구·지도안을 열람할 수 있습니다','2단계')}<p class="muted" style="margin-top:10px;font-size:.9375rem">회원 시스템이 열리기 전까지는 이 페이지에서 모델 개요만 공개합니다.</p></section>`};
+<section><h2>정회원 전용 상세 자료</h2>${stage2('상세 지침·도구·지도안은 회비를 납부한 정회원만 열람')}<p class="muted" style="margin-top:10px;font-size:.9375rem">1단계에서는 이 페이지에서 모델 개요만 공개합니다.</p></section>`};
 
-P['biz-propose'] = {t:'사업제안·협력신청',lead:'지자체, 보건소, 복지기관, 연구기관의 협력 제안을 받습니다.',phase:'1단계',h:()=>demoForm('fPropose',`
+P['biz-propose'] = {t:'사업제안·협력신청',ph:1,dag:1,lead:'지자체, 보건소, 복지기관, 연구기관의 협력 제안을 받습니다.',h:()=>`
+<p class="note"><strong>† 접수 시작 조건</strong> ${LEGAL_DAG} 접수된 제안의 담당자 지정과 답변 처리는 2단계 이후 기능입니다.</p>
+${demoForm('fPropose',`
 <div class="f-row"><label for="pOrg">기관명<input id="pOrg" required placeholder="예: ○○구 보건소"></label><label for="pType">기관 유형<select id="pType"><option>지방자치단체</option><option>보건소</option><option>노인복지관·경로당</option><option>의료기관</option><option>연구·교육기관</option><option>기타</option></select></label></div>
 <div class="f-row"><label for="pName">담당자 성명<input id="pName" required></label><label for="pContact">연락처 (전화 또는 이메일)<input id="pContact" required></label></div>
 <label for="pKind">협력 분야<select id="pKind"><option>지자체 낙상예방교육 (강사 파견)</option><option>낙상체험관 설치</option><option>표준화 교육모델·연구 협력</option><option>기타 제안</option></select></label>
-<label for="pBody">제안 내용<textarea id="pBody" placeholder="대상, 희망 시기, 규모 등을 적어 주세요."></textarea></label>`,'협력 신청 보내기','시안 화면이라 전송되지 않았습니다. 개설 후에는 접수번호가 발급되고 담당자가 지정됩니다.')};
+<label for="pBody">제안 내용<textarea id="pBody" placeholder="대상, 희망 시기, 규모 등을 적어 주세요."></textarea></label>`,'협력 신청 보내기','시안 화면이라 전송되지 않았습니다. 1단계에서는 접수 확인 메일이 발송되고, 2단계부터 담당자 지정과 처리 상태 조회가 가능합니다.')}`};
 
-P['biz-progress'] = {t:'추진현황·성과',lead:'3대 핵심사업의 진행 상황을 투명하게 공개합니다.',phase:'3단계',h:()=>`
+P['biz-progress'] = {t:'추진현황 및 성과',ph:1,lead:'3대 핵심사업의 진행 상황을 공개합니다.',h:()=>`
 <div class="tbl-wrap"><table><thead><tr><th>사업</th><th>현재 단계</th><th>다음 단계</th><th>상태</th></tr></thead><tbody>
-<tr><td>지자체 낙상예방교육</td><td>협력 기관 모집</td><td>시범 지역 교육 운영</td><td><span class="tag warn">준비</span></td></tr>
+<tr><td>지자체 예방교육</td><td>협력 기관 모집</td><td>시범 지역 교육 운영</td><td><span class="tag warn">준비</span></td></tr>
 <tr><td>낙상체험관 설치</td><td>체험존 구성안 마련</td><td>거점 후보지 협의</td><td><span class="tag warn">준비</span></td></tr>
-<tr><td>표준화 교육모델</td><td>관리모델 초안</td><td>유관기관 협의·검증</td><td><span class="tag warn">준비</span></td></tr>
+<tr><td>표준화 모델·인프라</td><td>관리모델 초안</td><td>유관기관 협의·검증</td><td><span class="tag warn">준비</span></td></tr>
 </tbody></table></div>
-<div class="ph">사업이 진행되면 지역별 교육 횟수, 참여 인원, 인증 지도자 수, 체험관 이용 현황을 기간별로 공개합니다. 위 표는 화면 예시입니다.</div>`};
-
-P['info-falls'] = {t:'낙상 바로알기',lead:'낙상은 피할 수 없는 노화의 결과가 아닙니다. 위험 요인을 알면 예방할 수 있습니다.',phase:'1단계',h:()=>`
-<section class="prose"><h2>한 번의 낙상이 남기는 것</h2><p>한 번의 낙상은 골절과 입원으로 끝나지 않습니다. 신체 기능이 떨어지고, 다시 넘어질까 두려워 활동을 줄이게 되며, 이것이 또 다른 낙상으로 이어집니다.</p></section>
-<section><h2>주요 위험 요인</h2><div class="grid4">
-  <div class="card"><span class="k">몸</span><h3>근력·균형 저하</h3><p>다리 힘이 약해지고 균형을 잡기 어려워집니다.</p></div>
-  <div class="card"><span class="k">약</span><h3>복용 약물</h3><p>수면제·혈압약 등은 어지럼증을 일으킬 수 있습니다.</p></div>
-  <div class="card"><span class="k">집</span><h3>생활 환경</h3><p>문턱, 미끄러운 바닥, 어두운 조명, 손잡이 없는 욕실</p></div>
-  <div class="card"><span class="k">감각</span><h3>시력·발 감각</h3><p>잘 보이지 않거나 발의 감각이 둔해지면 위험합니다.</p></div>
-</div></section>
-<p><a class="btn btn-primary" href="#selfcheck">내 낙상위험 점검하기 →</a></p>`};
+<div class="ph">협회가 정리한 실적(교육 횟수, 참여 기관 수 등)을 게시판 형식으로 올립니다. 위 표는 화면 예시입니다.</div>`};
 
 const SC = [
   ['지난 1년 동안 넘어진 적이 있다.',2,'넘어진 경험은 다시 넘어질 위험을 높입니다.'],
@@ -790,153 +798,199 @@ const SC = [
   ['잠을 돕거나 기분을 조절하는 약을 먹는다.',1,'이런 약은 낙상 위험을 높일 수 있습니다.'],
   ['자주 슬프거나 우울하다.',1,'우울감은 낙상과 관련이 있습니다.']
 ];
-P['selfcheck'] = {t:'낙상위험 자가점검',lead:'12개 질문에 “예/아니오”로 답하면 바로 결과를 볼 수 있습니다. 답변은 저장되거나 전송되지 않습니다.',phase:'1단계',h:()=>`
+P['selfcheck'] = {t:'낙상위험 자가점검',ph:2,road:'로드맵 3단계',lead:'12개 질문에 “예/아니오”로 답하면 바로 결과를 볼 수 있습니다.',h:()=>`
+<p class="note"><strong>민감정보 주의</strong> 이 시안은 답변을 저장하거나 전송하지 않습니다. 결과를 저장·분석하려면 건강 관련 민감정보로서 다른 동의와 분리한 별도 동의가 필요하고(개인정보 보호법 제23조), 관리자 통계는 합계로만 보여 줍니다.</p>
 <div class="check" id="sc">${SC.map((q,i)=>`<div class="q"><div><p>${i+1}. ${q[0]}</p><small>“예”이면 ${q[1]}점 · ${q[2]}</small></div><div class="yn" role="group" aria-label="${i+1}번 답변"><button type="button" class="y" data-i="${i}" data-v="1" aria-pressed="false">예</button><button type="button" class="n" data-i="${i}" data-v="0" aria-pressed="false">아니오</button></div></div>`).join('')}</div>
 <div class="result" id="scRes" aria-live="polite"></div>
 <p class="muted" style="font-size:.8125rem">이 점검표는 미국 질병통제예방센터(CDC) STEADI 프로그램의 「Stay Independent」 자가점검표를 참고해 구성한 예시입니다. 의학적 진단을 대신하지 않습니다. 협회 표준 선별도구가 확정되면 교체합니다.</p>`};
 
-P['info-home'] = {t:'생활환경 안전수칙',lead:'집 안 곳곳의 작은 변화로 낙상을 크게 줄일 수 있습니다.',phase:'1단계',h:()=>`
-<div class="grid2">
+P['info-life'] = {t:'생활속 낙상예방',ph:1,lead:'낙상은 피할 수 없는 노화의 결과가 아닙니다. 위험 요인을 알고 생활을 조금 바꾸면 예방할 수 있습니다.',h:()=>`
+<section class="prose"><h2>한 번의 낙상이 남기는 것</h2><p>한 번의 낙상은 골절과 입원으로 끝나지 않습니다. 신체 기능이 떨어지고, 다시 넘어질까 두려워 활동을 줄이게 되며, 이것이 또 다른 낙상으로 이어집니다.</p></section>
+<section><h2>주요 위험 요인</h2><div class="grid4">
+  <div class="card"><span class="k">몸</span><h3>근력·균형 저하</h3><p>다리 힘이 약해지고 균형을 잡기 어려워집니다.</p></div>
+  <div class="card"><span class="k">약</span><h3>복용 약물</h3><p>수면제·혈압약 등은 어지럼증을 일으킬 수 있습니다.</p></div>
+  <div class="card"><span class="k">집</span><h3>생활 환경</h3><p>문턱, 미끄러운 바닥, 어두운 조명, 손잡이 없는 욕실</p></div>
+  <div class="card"><span class="k">감각</span><h3>시력·발 감각</h3><p>잘 보이지 않거나 발의 감각이 둔해지면 위험합니다.</p></div>
+</div></section>
+<section><h2>집 안 안전수칙</h2><div class="grid2">
   <div class="card"><span class="k">욕실</span><h3>미끄럼과 손잡이</h3><ul><li>바닥에 미끄럼 방지 매트를 깝니다.</li><li>변기와 샤워 공간 옆에 안전 손잡이를 답니다.</li><li>샤워 의자를 사용합니다.</li></ul></div>
   <div class="card"><span class="k">침실</span><h3>밤길 조명</h3><ul><li>침대에서 화장실까지 수면등을 켭니다.</li><li>일어날 때 잠시 앉았다가 천천히 일어섭니다.</li></ul></div>
   <div class="card"><span class="k">거실·통로</span><h3>문턱과 전선</h3><ul><li>문턱을 없애거나 경사로를 둡니다.</li><li>바닥의 전선, 깔개, 물건을 치웁니다.</li></ul></div>
   <div class="card"><span class="k">계단·현관</span><h3>난간과 신발</h3><ul><li>계단 양쪽에 난간을 설치합니다.</li><li>굽이 낮고 미끄럽지 않은 신발을 신습니다.</li></ul></div>
-</div>
-<p><a class="btn btn-ghost" href="#library">가정 내 위험요인 점검표 받기</a></p>`};
+</div></section>
+<section><h2>넘어졌을 때 대처법</h2><ol class="steps"><li><b>멈추고 숨 고르기</b><span>바로 일어나지 말고 아픈 곳이 있는지 살핍니다.</span></li><li><b>도움 요청</b><span>통증이 심하면 움직이지 말고 119 또는 가족에게 알립니다.</span></li><li><b>천천히 일어나기</b><span>옆으로 돌아 네발 자세로 튼튼한 의자를 짚고 일어납니다.</span></li><li><b>앉아서 쉬기</b><span>의자에 앉아 쉬고, 넘어진 사실을 가족·의료진에게 알립니다.</span></li></ol>
+<p class="note" style="margin-top:14px"><strong>바로 119</strong> 머리를 부딪혔거나, 심한 통증·출혈이 있거나, 다리를 움직일 수 없으면 일어나려 하지 말고 즉시 도움을 요청하세요.</p></section>`};
 
-P['info-after'] = {t:'넘어졌을 때 대처법',lead:'당황하지 않고 순서대로 움직이면 2차 부상을 줄일 수 있습니다.',phase:'1단계',h:()=>`
-<ol class="steps"><li><b>멈추고 숨 고르기</b><span>바로 일어나지 말고 아픈 곳이 있는지 살핍니다.</span></li><li><b>도움 요청</b><span>통증이 심하면 움직이지 말고 119 또는 가족에게 알립니다.</span></li><li><b>천천히 일어나기</b><span>옆으로 돌아 네발 자세로 튼튼한 의자를 짚고 일어납니다.</span></li><li><b>앉아서 쉬기</b><span>의자에 앉아 쉬고, 넘어진 사실을 가족·의료진에게 알립니다.</span></li></ol>
-<p class="note"><strong>바로 119</strong> 머리를 부딪혔거나, 심한 통증·출혈이 있거나, 다리를 움직일 수 없으면 일어나려 하지 말고 즉시 도움을 요청하세요.</p>`};
-
-P['info-exercise'] = {t:'K-Fall Fit 운동',lead:'협회가 개발하는 단계별 낙상예방 운동 프로그램입니다.',phase:'3단계',h:()=>`
+P['info-kfallfit'] = {t:'K-Fall Fit 가이드',ph:1,lead:'협회가 개발하는 단계별 낙상예방 운동 프로그램입니다. 누구나 공개 요약본을 볼 수 있습니다.',h:()=>`
 <div class="grid3"><div class="card"><span class="k">1단계</span><h3>의자 운동</h3><p>앉아서 하는 근력·관절 운동</p></div><div class="card"><span class="k">2단계</span><h3>지지 균형 운동</h3><p>의자나 벽을 짚고 하는 균형 운동</p></div><div class="card"><span class="k">3단계</span><h3>보행·기능 운동</h3><p>일상 동작에 가까운 보행 훈련</p></div></div>
-${locked('운동 영상·지도안 콘텐츠','3단계')}`};
+<section><h2>회원 등급별 열람</h2><div class="tbl-wrap"><table><thead><tr><th>구분</th><th>열람 범위</th><th>단계</th></tr></thead><tbody>
+<tr><td>일반 방문자</td><td>공개 요약본</td><td><span class="phase">1단계</span></td></tr>
+<tr><td>준회원</td><td>가이드북 전체 열람</td><td><span class="phase p2">2단계 이후</span></td></tr>
+<tr><td>정회원·전문지도자</td><td>DW 및 교수자료 <span class="tag warn">DW 의미 확인 필요</span></td><td><span class="phase p2">2단계 이후</span></td></tr>
+</tbody></table></div></section>`};
 
-P['edu-courses'] = {t:'교육과정 안내',lead:'낙상예방 지도자를 위한 단계별 교육과정입니다.',phase:'1단계',h:()=>`
+P['info-video'] = {t:'영상자료실',ph:1,lead:'어르신과 보호자가 따라 할 수 있는 낙상예방 영상을 모읍니다.',h:()=>`
+<div class="grid3">${['K-Fall Fit 의자 운동 따라하기','욕실 안전 점검 5가지','넘어졌을 때 안전하게 일어나기'].map(t=>`<div class="card"><div style="aspect-ratio:16/9;max-width:100%;border-radius:8px;background:var(--pine-soft);display:grid;place-items:center;color:var(--pine);margin-bottom:12px"><span style="width:48px;height:48px;display:block">${I.play}</span></div><h3>${t}</h3><p>영상 제작 후 게시 (예시)</p></div>`).join('')}</div>
+<p class="muted" style="font-size:.875rem">영상은 유튜브 등 외부 채널에 올리고 링크로 연결하면 서버 비용을 줄일 수 있습니다.</p>`};
+
+P['edu-courses'] = {t:'지도자 양성과정 안내',ph:1,lead:'표준화된 교육으로 지역 어디서나 같은 품질의 예방교육을 제공합니다.',h:()=>`
+<ol class="steps"><li><b>기본 과정</b><span>이론·실습 이수</span></li><li><b>현장 실습</b><span>지역 거점 교육 보조</span></li><li><b>전문 과정</b><span>평가·중재 역량</span></li><li><b>보수교육</b><span>정기 갱신</span></li></ol>
 <div class="tbl-wrap"><table><thead><tr><th>과정</th><th>대상</th><th>주요 내용</th><th>수료 후</th></tr></thead><tbody>
 <tr><td><b>기본 지도자 과정</b></td><td>보건·복지·체육 분야 종사자</td><td>낙상 이해, 위험 선별, 기본 운동 지도</td><td>기본 지도자 자격</td></tr>
 <tr><td><b>전문 지도자 과정</b></td><td>기본 과정 수료자</td><td>표준 평가, 맞춤 중재, 프로그램 운영</td><td>전문 지도자 자격</td></tr>
 <tr><td><b>보수교육</b></td><td>자격 보유 지도자</td><td>개정 지침, 우수사례 공유</td><td>자격 유지</td></tr>
-<tr><td><b>보호자 교육</b></td><td>가족·요양보호사</td><td>가정 환경 점검, 낙상 후 대처</td><td>이수 확인</td></tr>
 </tbody></table></div>
 <p class="note"><strong>확정 필요</strong> 교육 시간, 수강료, 수료 기준은 교육과정·수료확인 기준이 확정되면 기재합니다.</p>`};
 
-P['edu-apply'] = {t:'교육 신청',lead:'모집 중인 교육을 확인하고 신청하세요. 관리자가 접수 후 승인합니다.',phase:'2단계',h:()=>`
+P['edu-apply'] = {t:'교육 신청',ph:2,lead:'모집 중인 교육을 확인하고 신청합니다. 관리자가 접수 후 승인합니다.',h:()=>`
 <div class="tbl-wrap"><table><thead><tr><th>교육명</th><th class="num">신청 기간</th><th>장소</th><th>상태</th></tr></thead><tbody>
-<tr><td>낙상예방지도자 기본과정 (예시)</td><td class="num">10.20 – 11.05</td><td>장소 확정 후 공지</td><td><span class="tag ok">모집 중</span></td></tr>
-<tr><td>보호자 낙상예방 교육 (예시)</td><td class="num">11.10 – 11.24</td><td>온라인</td><td><span class="tag">모집 예정</span></td></tr>
+<tr><td>낙상예방지도자 기본과정 (예시)</td><td class="num">11.01 – 11.15</td><td>장소 확정 후 공지</td><td><span class="tag ok">모집 중</span></td></tr>
+<tr><td>보호자 낙상예방 교육 (예시)</td><td class="num">11.20 – 12.04</td><td>온라인</td><td><span class="tag">모집 예정</span></td></tr>
 </tbody></table></div>
-${demoForm('fEdu',`<div class="f-row"><label for="eName">성명<input id="eName" required></label><label for="ePhone">연락처<input id="ePhone" required></label></div>
-<div class="f-row"><label for="eOrg">소속 기관<input id="eOrg"></label><label for="eCourse">신청 과정<select id="eCourse"><option>낙상예방지도자 기본과정</option><option>보호자 낙상예방 교육</option></select></label></div>`,'교육 신청하기','시안 화면이라 전송되지 않았습니다. 개설 후에는 신청 내역과 승인 상태를 마이페이지에서 확인합니다.')}`};
+${stage2('로그인 후 신청 · 승인 상태는 마이페이지에서 확인')}`};
 
-P['edu-leader'] = {t:'지도자 양성체계',lead:'표준화된 교육으로 지역 어디서나 같은 품질의 예방교육을 제공합니다.',phase:'1단계',h:()=>`
-<ol class="steps"><li><b>기본 과정</b><span>이론·실습 이수</span></li><li><b>현장 실습</b><span>지역 거점 교육 보조</span></li><li><b>전문 과정</b><span>평가·중재 역량</span></li><li><b>보수교육</b><span>정기 갱신</span></li></ol>`};
+P['edu-cert'] = {t:'수료·자격 검증',ph:2,lead:'수료 내역과 지도자 자격을 확인합니다.',h:()=>`
+<div class="grid2">
+  <div class="card"><h3>본인 조회</h3><p>로그인한 지도자는 본인의 수료 내역과 자격 상태를 확인하고 수료증을 발급받습니다.</p></div>
+  <div class="card"><h3>기관의 자격 확인 <span class="tag warn">협회 확정 필요</span></h3><p>지자체·기관이 지도자 자격을 확인해야 한다면 본인의 공개 동의를 받고(개인정보 보호법 제17조제1항), 이름이 아닌 자격번호로 조회하는 방식을 권합니다.</p></div>
+</div>${stage2('본인 인증 후 조회·수료증 발급')}`};
 
-P['edu-leaders'] = {t:'지도자 명단',lead:'공개에 동의한 지도자만 표시합니다. 자격·수료 상태와 공개 동의 여부를 구분해 관리합니다.',phase:'2단계',h:()=>`
-<div class="tbl-wrap"><table><thead><tr><th>이름</th><th>활동 지역</th><th>자격</th><th>수료 상태</th><th>공개 동의</th></tr></thead><tbody>
-${LEADERS.map(l=>`<tr><td>${l.pub==='공개 동의'?l.n:'<span class="lock">'+I.lock+' 비공개</span>'}</td><td>${l.r}</td><td>${l.g}</td><td><span class="tag ${l.st==='수료'?'ok':l.st==='과정 중'?'':'warn'}">${l.st}</span></td><td>${l.pub}</td></tr>`).join('')}
-</tbody></table></div>
-<p class="muted" style="font-size:.875rem">위 명단은 예시입니다. 일반 방문자에게는 이름(일부 가림)과 활동 지역만 보이며, 연락처는 공개하지 않습니다.</p>`};
+P['edu-space'] = {t:'지도자 전용 공간',ph:2,lead:'인증 지도자를 위한 교안, 공지, 자료 공유 공간입니다.',h:()=>`
+<div class="grid3"><div class="card"><h3>지도자 공지</h3><p>보수교육, 지침 개정 안내</p></div><div class="card"><h3>교안·교수자료</h3><p>K-Fall Fit 교수자료, 평가도구 지침</p></div><div class="card"><h3>활동 기록</h3><p>교육 운영 기록 제출</p></div></div>${stage2('지도자 로그인 후 이용')}`};
 
-P['edu-cert'] = {t:'수료 확인',lead:'교육 수료 내역과 수료증을 확인합니다.',phase:'2단계',h:()=>locked('본인 인증 후 수료 내역 조회·수료증 발급','2단계')+`<p class="muted" style="margin-top:12px">외부 기관이 지도자의 수료 여부를 확인할 때는 수료증 번호로 조회하는 방식을 사용해 개인정보 노출을 최소화합니다.</p>`};
-
-P['member-join'] = {t:'회원가입 안내',lead:'협회의 뜻에 함께하는 개인과 기관을 회원으로 모십니다.',phase:'1단계',h:()=>`
+P['member-join'] = {t:'회원가입 안내',ph:1,dag:1,lead:'협회의 뜻에 함께하는 개인과 기관을 회원으로 모십니다.',h:()=>`
 <div class="grid3">
-  <div class="card"><span class="k">개인</span><h3>정회원</h3><p>회비를 납부한 개인 회원. 회원 전용 자료와 표준 모델 상세 자료를 열람합니다.</p></div>
-  <div class="card"><span class="k">개인</span><h3>준회원</h3><p>소식과 공개 자료를 받아보는 회원입니다.</p></div>
-  <div class="card"><span class="k">기관</span><h3>기관회원</h3><p>보건소·복지관·의료기관 등. 협력사업과 기관인증에 참여합니다.</p></div>
+  <div class="card"><span class="k">개인 · 1단계</span><h3>준회원</h3><p>소식과 공개 자료를 받아보는 회원입니다. 1단계에서 가입을 받습니다.</p></div>
+  <div class="card"><span class="k">개인 · 2단계 이후</span><h3>정회원</h3><p>회비를 납부한 회원. 회원 전용 자료와 표준 모델 상세 자료를 열람합니다.</p></div>
+  <div class="card"><span class="k">기관 · 2단계 이후</span><h3>기관회원</h3><p>보건소·복지관·의료기관 등. 협력사업과 기관인증에 참여합니다.</p></div>
 </div>
-<p class="note"><strong>확정 필요</strong> 회원 구분과 회비는 정관 및 회원가입·회비 규정 확정 후 반영합니다.</p>
-${locked('온라인 회원가입','2단계')}`};
+<p class="note"><strong>† 준회원 가입 시작 조건</strong> ${LEGAL_DAG} 이용약관도 회원가입을 열 때 함께 게시합니다.</p>
+<section><h2>준회원 가입</h2>${demoForm('fJoin',`<div class="f-row"><label for="jName">성명<input id="jName" required></label><label for="jEmail">이메일<input id="jEmail" type="email" required></label></div>
+<div class="f-row"><label for="jOrg">소속 (선택)<input id="jOrg"></label><label for="jField">관심 분야<select id="jField"><option>낙상예방 정보</option><option>지도자 교육</option><option>지자체 협력사업</option><option>연구·정책</option></select></label></div>`,'준회원 가입 신청','시안 화면이라 전송되지 않았습니다.')}</section>
+<p class="muted" style="font-size:.875rem">정회원 확인 방법(결제 연동 또는 관리자 직접 확인)은 2단계 정식 계약 때 정합니다. 회비는 회원가입·회비 규정 확정 후 기재합니다.</p>`};
 
-P['member-dir'] = {t:'회원 디렉터리',lead:'회원명부는 전체 공개하지 않습니다. 본인이 동의한 범위 안에서만 회원끼리 열람합니다.',phase:'2단계',h:()=>`
-<div class="grid3">
-  <div class="card"><h3>일반 방문자</h3><p>열람할 수 없습니다.</p></div>
-  <div class="card"><h3>회원·지도자</h3><p>상대 회원이 공개에 동의한 항목(이름, 소속, 지역)만 볼 수 있습니다.</p></div>
-  <div class="card"><h3>관리자</h3><p>접근 권한이 통제되며 모든 열람 기록이 남습니다.</p></div>
-</div>${locked('회원 로그인 후 이용','2단계')}`};
+P['member-org'] = {t:'기관인증 신청',ph:2,lead:'협회 표준에 맞춰 낙상예방교육을 운영하는 기관을 인증합니다.',h:()=>`
+<ol class="steps"><li><b>안내 확인</b><span>인증 기준과 제출 서류</span></li><li><b>신청</b><span>기관 정보·운영 계획 제출</span></li><li><b>심사</b><span>서류·현장 심사</span></li><li><b>인증</b><span>인증서 발급·목록 게시</span></li></ol>
+${stage2('신청·진행 조회·인증서 발급')}`};
 
-P['member-org'] = {t:'기관인증 신청',lead:'협회 표준에 맞춰 낙상예방교육을 운영하는 기관을 인증합니다.',phase:'2단계',h:()=>`
-<ol class="steps"><li><b>안내 확인</b><span>인증 기준과 제출 서류</span></li><li><b>신청</b><span>기관 정보·운영 계획 제출</span></li><li><b>심사</b><span>서류·현장 심사</span></li><li><b>인증</b><span>인증서 발급·명단 게시</span></li></ol>
-${locked('신청 및 진행 상황 조회','2단계')}`};
+P['member-partners'] = {t:'협력 기관 디렉터리',ph:2,lead:'개인 회원 명단 대신 협약을 맺은 협력 기관 목록을 공개합니다.',h:()=>`
+<div class="tbl-wrap"><table><thead><tr><th>기관명</th><th>지역</th><th>협력 분야</th><th>상태</th></tr></thead><tbody>
+${PARTNERS.map(p=>`<tr><td><b>${p.n}</b></td><td>${p.r}</td><td>${p.k}</td><td><span class="tag ${p.s==='협약 체결'?'ok':'warn'}">${p.s}</span></td></tr>`).join('')}
+</tbody></table></div>
+<p class="muted" style="font-size:.875rem">예시 목록입니다. 기관이 게시에 동의한 항목만 공개하며, 담당자 개인 연락처는 싣지 않습니다.</p>`};
 
-const ROLES = [
-  ['공지사항·행사 확인','열람','열람','작성·수정'],
-  ['교육 신청','가능','가능','접수·승인'],
-  ['공개 교육자료','다운로드','다운로드','등록·관리'],
-  ['지도자 전용 자료','제한','권한별 열람','권한 관리'],
-  ['회원명부','비공개','동의한 범위 내 열람','접근통제'],
-  ['회원 의견란','일부 공개글 열람','글 작성·답변 확인','운영·관리'],
-  ['기관인증 신청','안내 열람','신청·진행조회','심사·관리'],
-  ['사업협력 제안','신청 가능','신청 가능','접수·처리']
+P['mypage'] = {t:'마이페이지',ph:2,lead:'내 정보, 교육 신청 내역, 수료증, 작성한 글의 처리 상태를 확인합니다.',h:()=>`
+<div class="grid4"><div class="card"><h3>내 정보</h3><p>열람·정정·탈퇴</p></div><div class="card"><h3>교육 신청</h3><p>신청·승인 상태</p></div><div class="card"><h3>수료증</h3><p>발급·재발급</p></div><div class="card"><h3>내 글</h3><p>접수·검토·완료 상태</p></div></div>${stage2('로그인 후 이용')}`};
+
+const R = [ // [기능, 방문자, 준회원, 정회원·전문지도자, 기관회원, 관리자] · "?"로 시작하면 협회 확정 필요
+  ['공지사항 / 일반 소식','열람','열람','열람','열람','작성·수정·관리'],
+  ['낙상위험 자가점검','이용 (저장 안 함)','이용','이용 · 결과 저장은 별도 동의','이용','합계 통계만 조회'],
+  ['일반 교육자료 다운로드','가능','가능','가능','가능','등록·수정'],
+  ['K-Fall Fit 표준 가이드북','요약본 열람','전체 열람','?DW 및 교수자료','?기관 범위 미정','등록·수정'],
+  ['지도자 자격 검증 조회','-','본인 확인','본인 자격 조회','?자격번호 조회 (본인 동의 시)','전체 승인·관리'],
+  ['사업제안 및 협력신청','가능','가능','가능','가능','담당자 지정 및 답변'],
+  ['비공개 민원·상담','개인정보 열람·정정·삭제 요구 (로그인 없이)','본인 글 작성','본인 글 작성','본인 글 작성','담당자 지정·답변'],
+  ['교육 신청','?','?','?','?','?접수·승인'],
+  ['기관인증 신청','?안내 열람','?','?','?신청·진행 조회','?심사·인증서 발급'],
+  ['마이페이지','-','?','?','?','?'],
+  ['학술자료실 (정회원·연구자 전용)','공개 자료만','공개 자료만','?열람','?','등록·권한 관리']
 ];
-P['member-roles'] = {t:'이용 권한 안내',lead:'방문자, 회원·지도자, 관리자가 이용할 수 있는 기능입니다.',phase:'1단계',h:()=>`
-<div class="tbl-wrap"><table><thead><tr><th>기능</th><th>일반 방문자</th><th>회원·지도자</th><th>관리자</th></tr></thead><tbody>
-${ROLES.map(r=>`<tr><td><b>${r[0]}</b></td><td>${/비공개|제한/.test(r[1])?'<span class="lock">'+I.lock+' '+r[1]+'</span>':r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}
-</tbody></table></div>`};
+P['member-roles'] = {t:'이용 권한 안내',ph:1,lead:'협회 개선안 권한표에 케어씽크 검토 의견을 반영한 검토안입니다. 노란 칸은 협회가 정해 주셔야 할 부분입니다.',h:()=>`
+<div class="tbl-wrap"><table class="roles"><thead><tr><th>기능</th><th>일반 방문자</th><th>준회원</th><th>정회원·전문지도자</th><th>기관회원</th><th>관리자</th></tr></thead><tbody>
+${R.map(r=>`<tr><td><b>${r[0]}</b></td>${r.slice(1).map(c=>c[0]==='?'?`<td class="flag">${c.slice(1)||'확정 필요'}</td>`:`<td>${c}</td>`).join('')}</tr>`).join('')}
+</tbody></table></div>
+<section><h2>반영한 검토 의견</h2><div class="grid2">
+  <div class="card"><span class="k">1 · 기관과 관리자 분리</span><p>기관회원에게 관리자 권한(전체 승인, 민원 답변, 통계 조회)을 주면 다른 회원의 개인정보까지 볼 수 있어 열을 나눴습니다.</p></div>
+  <div class="card"><span class="k">2 · 자가점검 결과</span><p>결과를 저장·분석하면 민감정보가 될 수 있어 별도 동의를 받고, 통계는 합계로만 보여 줍니다.</p></div>
+  <div class="card"><span class="k">3 · 빠진 항목</span><p>교육 신청, 기관인증 신청, 마이페이지, 인증서 발급 줄을 추가했습니다. ‘연구자’ 역할과 K-Fall Fit의 ‘DW’ 의미를 알려 주세요.</p></div>
+  <div class="card"><span class="k">4 · 자격 검증 주체</span><p>지자체·기관이 지도자 자격을 확인해야 한다면 본인 공개 동의를 받고 자격번호로 조회합니다.</p></div>
+</div></section>`};
 
-P['library'] = {t:'교육자료실',lead:'모든 자료에 작성기관, 발행일, 버전, 적용대상, 저작권, 다운로드 권한을 표시합니다.',phase:'1단계',h:()=>`
-<div class="tabs" role="tablist" id="libTabs">${['전체','공개','회원','지도자'].map((x,i)=>`<button class="tab" role="tab" type="button" data-f="${x}" aria-selected="${i===0}">${x==='전체'?'전체':x==='공개'?'누구나':x+' 전용'}</button>`).join('')}</div>
+P['research-policy'] = {t:'정책 제안 및 연구 보고서',ph:1,lead:'고령자의 안전과 건강을 보장하는 공중 보건 정책을 제안하고, 공개 보고서를 게시합니다.',h:()=>`
+<div class="grid2"><div class="card"><h3>정책 제안서</h3><p>협회가 정부·지자체에 제출한 정책 제안을 공개합니다.</p></div><div class="card"><h3>연구 보고서</h3><p>공개 가능한 연구 보고서를 게시합니다. 정회원·연구자 전용 자료는 학술자료실에서 권한별로 제공합니다(로드맵 3단계).</p></div></div>
+<div class="ph">첫 보고서가 발간되면 게시합니다.</div>`};
+
+P['research-stats'] = {t:'국내외 손상예방 통계',ph:1,lead:'낙상과 손상예방 관련 공개 통계를 출처와 함께 정리합니다.',h:()=>`
+<div class="tbl-wrap"><table><thead><tr><th>지표</th><th>출처</th><th>비고</th></tr></thead><tbody>
+<tr><td>65세 이상 연간 낙상 경험률 (약 28~35%)</td><td>WHO Global Report on Falls Prevention in Older Age</td><td>국외</td></tr>
+<tr><td>국내 손상 원인별 통계</td><td>질병관리청 국가손상조사감시</td><td>국내 · 최신 자료로 게시 예정</td></tr>
+</tbody></table></div>
+<p class="muted" style="font-size:.875rem">통계는 원문 출처와 발행 연도를 함께 표기하고, 개정 시 갱신합니다.</p>`};
+
+P['research-library'] = {t:'학술자료실',ph:1,lead:'모든 자료에 작성기관, 발행일, 버전, 적용대상, 저작권, 다운로드 권한을 표시합니다.',h:()=>`
+<div class="tabs" role="tablist" id="libTabs">${['전체','공개','정회원·연구자'].map((x,i)=>`<button class="tab" role="tab" type="button" data-f="${x}" aria-selected="${i===0}">${x==='공개'?'누구나':x==='전체'?'전체':x+' 전용'}</button>`).join('')}</div>
 <div class="tbl-wrap"><table><thead><tr><th>자료명</th><th>작성기관</th><th class="num">발행일</th><th>버전</th><th>적용대상</th><th>저작권</th><th>권한</th><th></th></tr></thead><tbody id="libBody"></tbody></table></div>
-<p class="muted" style="font-size:.875rem">목록은 예시입니다. 회원·지도자 전용 자료는 2단계 회원 시스템 개설 후 권한에 따라 열람할 수 있습니다.</p>`};
+<p class="muted" style="font-size:.875rem">목록은 예시입니다. 1단계에서는 공개 자료만 받을 수 있고, 정회원·연구자 전용 자료는 로드맵 3단계에 권한별로 엽니다.</p>`};
 
-P['research-papers'] = {t:'연구자료',lead:'낙상예방 관련 국내외 연구와 협회 연구 성과를 모읍니다.',phase:'3단계',h:()=>`<div class="ph">연구자료 목록은 3단계(낙상예방 전문 플랫폼)에서 분야·연도·출처별 검색과 함께 제공합니다.</div>`};
-P['research-policy'] = {t:'정책제안·자료',lead:'고령자의 안전과 건강을 보장하는 공중 보건 정책을 제안합니다.',phase:'3단계',h:()=>`<div class="grid2"><div class="card"><h3>정책 제안서</h3><p>협회가 정부·지자체에 제출한 정책 제안을 공개합니다.</p></div><div class="card"><h3>정책자료 발간</h3><p>발간 시 공지사항과 알림으로 안내합니다.</p></div></div>`};
-P['research-partners'] = {t:'협력기관',lead:'정부 보건 기관, 의료 전문가, 지자체, 지역사회와 함께합니다.',phase:'1단계',h:()=>`<div class="ph">협약이 체결된 기관만 게시합니다. 협약 기관 로고와 협력 분야는 승인 후 반영합니다.</div>`};
-
-P['notice'] = {t:'공지사항',lead:'교육 일정, 장소 변경, 총회·이사회, 공모, 인증기관 모집, 자료 발간·개정 소식을 한곳에서 안내합니다.',phase:'1단계',h:()=>`
-<div class="tabs" role="tablist" id="ntTabs">${['전체','교육','일정','공모','모집','발간','개정','협회소식'].map((x,i)=>`<button class="tab" role="tab" type="button" data-f="${x}" aria-selected="${i===0}">${x}</button>`).join('')}</div>
+P['notice'] = {t:'공지사항·행사',ph:1,lead:'교육 일정, 장소 변경, 총회·이사회, 공모, 인증기관 모집, 자료 발간·개정 소식을 한곳에서 안내합니다.',h:()=>`
+<div class="tabs" role="tablist" id="ntTabs">${['전체','교육','행사','공모','모집','발간','개정','협회소식'].map((x,i)=>`<button class="tab" role="tab" type="button" data-f="${x}" aria-selected="${i===0}">${x}</button>`).join('')}</div>
 <div class="tbl-wrap"><table><thead><tr><th>분류</th><th>제목</th><th class="num">등록일</th></tr></thead><tbody id="ntBody"></tbody></table></div>
-<section class="card"><h3>알림 받기 <span class="phase">2단계</span></h3><p>교육신청 시작·마감, 교육장소 변경, 총회·이사회 일정, 신규사업 공모, 인증기관 모집, 정책자료 발간, 자료 개정 알림을 회원이 고른 분야만 문자·이메일로 받습니다.</p></section>
+<section class="card"><h3>알림 받기 <span class="phase p2">2단계 이후</span></h3><p>교육신청 시작·마감, 교육장소 변경, 총회·이사회 일정, 신규사업 공모, 인증기관 모집, 정책자료 발간, 자료 개정 알림을 회원이 고른 분야만 받습니다.</p></section>
 <p class="muted" style="font-size:.875rem">게시물은 예시입니다.</p>`};
 
+const BOARD_META = {
+  'board-square':['소통광장(후기)','활동 후기, 우수사례, 현장 의견을 나누는 공간입니다.','활동 후기 · 우수사례 · 현장 의견'],
+  'board-idea':['발전제안','신규사업, 교육 개선, 지역사업 아이디어를 제안해 주세요. 담당 위원회가 검토 후 답변합니다.','신규사업 · 교육 개선 · 지역사업 아이디어'],
+  'board-private':['비공개 Q&A·민원','회원 자격, 교육 수료, 인증, 개인정보 관련 문의는 작성자와 담당자만 볼 수 있습니다.','회원 자격 · 수료 · 인증 · 개인정보 문의']
+};
+const PRIVACY_REQ = `<section class="card"><h3>회원이 아니어도 개인정보를 요구할 수 있습니다</h3><p>로그인 없이도 본인 정보의 열람·정정·삭제·처리정지를 요구할 수 있습니다(개인정보 보호법 제35조~제37조). 개인정보 보호책임자에게 이메일 또는 전화로 요청해 주세요.</p><p style="margin-top:8px">개인정보 보호책임자 [지정 후 기재] · 이메일 [확정 예정] · 전화 [확정 예정]</p><p style="margin-top:8px"><a href="#privacy">개인정보 처리방침 보기 →</a></p></section>`;
 function boardPage(key){
-  const b = BOARDS[key];
-  const priv = key==='board-private';
-  return {t:b.title,lead:b.desc,phase:'2단계',h:()=>`
-<div class="grid3">${Object.keys(BOARDS).map(k=>`<a class="card" style="text-decoration:none;${k===key?'border-color:var(--pine)':''}" href="#${k}"><h3>${BOARDS[k].title}</h3><p>${k==='board-square'?'활동 후기 · 우수사례 · 현장 의견':k==='board-idea'?'신규사업 · 교육 개선 · 지역사업 아이디어':'회원 자격 · 수료 · 인증 · 개인정보 문의'}</p></a>`).join('')}</div>
-<div class="tbl-wrap"><table><thead><tr><th>제목</th><th>작성자</th><th class="num">등록일</th>${key==='board-square'?'<th class="num">댓글</th>':'<th>처리상태</th><th>답변 책임자</th>'}</tr></thead><tbody>
+  const b = BOARDS[key], m = BOARD_META[key];
+  return {t:m[0],ph:2,road:'로드맵 2단계',lead:m[1],openExtra:key==='board-private'?PRIVACY_REQ:'',h:()=>`
+${key==='board-private'?PRIVACY_REQ:''}
+<div class="grid3">${Object.keys(BOARD_META).map(k=>`<a class="card" style="text-decoration:none;${k===key?'border-color:var(--pine)':''}" href="#${k}"><h3>${BOARD_META[k][0]}</h3><p>${BOARD_META[k][2]}</p></a>`).join('')}</div>
+<div class="tbl-wrap"><table><thead><tr><th>제목</th><th>작성자</th><th class="num">등록일</th>${key==='board-square'?'<th class="num">댓글</th>':'<th>처리 상태</th><th>답변 담당자</th>'}</tr></thead><tbody>
 ${b.rows.map(r=>`<tr><td>${r.p?'<span class="lock">'+I.lock+'</span> ':''}${esc(r.t)}</td><td>${esc(r.a)}</td><td class="num">${r.d}</td>${key==='board-square'?`<td class="num">${r.n}</td>`:`<td>${statusTag(r.s)}</td><td>${esc(r.o)}</td>`}</tr>`).join('')}
 </tbody></table></div>
-${key!=='board-square'?'<p class="muted" style="font-size:.875rem">처리상태는 접수 → 검토중 → 답변완료 순으로 바뀝니다. 관리자가 글마다 답변 책임자를 지정합니다.</p>':''}
-${priv?'<p class="note"><strong>비공개</strong> 이 게시판의 글은 작성자 본인과 지정된 담당자만 볼 수 있습니다. 목록에서도 작성자 이름 일부를 가립니다.</p>':''}
-${locked('회원 로그인 후 글 작성','2단계')}
+${key!=='board-square'?'<p class="muted" style="font-size:.875rem">처리 상태는 접수 → 검토 → 완료 순으로 바뀝니다. 관리자가 글마다 답변 담당자를 지정합니다.</p>':''}
+${stage2('회원 로그인 후 글 작성')}
 <p class="muted" style="font-size:.875rem">게시물은 예시입니다.</p>`};
 }
-['board-square','board-idea','board-private'].forEach(k=>P[k]=boardPage(k));
+Object.keys(BOARD_META).forEach(k=>P[k]=boardPage(k));
 
-P['faq'] = {t:'자주 묻는 질문',lead:'자주 받는 문의를 모았습니다.',phase:'1단계',h:()=>`
-<details class="faq"><summary>지자체에서 교육을 요청하려면 어떻게 하나요?</summary><p>3대 핵심사업 › 사업제안·협력신청에서 기관 정보와 희망 일정을 남겨 주시면 담당자가 연락드립니다.</p></details>
-<details class="faq"><summary>낙상예방 지도자가 되려면 어떤 과정을 거치나요?</summary><p>기본 지도자 과정을 이수한 뒤 현장 실습과 전문 과정을 거칩니다. 교육과정 안내 페이지를 참고하세요.</p></details>
-<details class="faq"><summary>자가점검 결과는 저장되나요?</summary><p>저장하거나 전송하지 않습니다. 화면을 닫으면 사라집니다.</p></details>
-<details class="faq"><summary>회원 정보는 누가 볼 수 있나요?</summary><p>회원명부는 공개하지 않으며, 본인이 동의한 항목만 다른 회원에게 보입니다. 이용 권한 안내를 참고하세요.</p></details>`};
+const PRIV_ITEMS = [
+  ['개인정보의 처리 목적','[확정 후 기재]'],
+  ['처리하는 개인정보의 항목','1단계: 사업제안·협력신청(기관명, 담당자 성명, 연락처), 준회원 가입(성명, 이메일, 소속)'],
+  ['개인정보의 처리 및 보유 기간','[확정 후 기재]'],
+  ['개인정보의 제3자 제공','[확정 후 기재]'],
+  ['개인정보 처리업무의 위탁','수탁자: 케어씽크 · 위탁 업무: 홈페이지 운영 및 개인정보 처리 시스템 관리 [위탁 계약 체결 후 확정] (제26조제2항)'],
+  ['개인정보의 파기 절차 및 방법','[확정 후 기재]'],
+  ['정보주체의 권리·의무 및 행사 방법','회원이 아니어도 로그인 없이 개인정보 보호책임자에게 이메일·전화로 열람·정정·삭제·처리정지를 요구할 수 있습니다.'],
+  ['개인정보의 안전성 확보 조치','[확정 후 기재]'],
+  ['개인정보 보호책임자 및 연락처','[지정 후 기재]'],
+  ['권익침해 구제 방법','개인정보분쟁조정위원회, 개인정보침해신고센터 등 안내'],
+  ['개인정보 처리방침의 변경','[확정 후 기재]']
+];
+P['privacy'] = {t:'개인정보 처리방침',ph:1,lead:'누구나 쉽게 찾을 수 있도록 모든 화면 맨 아래에 고정합니다.',h:()=>`
+<p class="note"><strong>초안 목차</strong> 개인정보 보호법 제30조에 따라 게시할 항목입니다. 내용은 위탁 계약 체결과 보호책임자 지정 후 확정합니다. 이 방침을 공개한 뒤에 이름·연락처를 받는 기능을 엽니다.</p>
+<ol class="road">${PRIV_ITEMS.map((x,i)=>`<li><b>제${i+1}조</b><div><h3>${x[0]}</h3><p>${x[1]}</p></div></li>`).join('')}</ol>`};
+P['terms'] = {t:'이용약관',ph:1,lead:'홈페이지 이용 조건과 회원의 권리·의무를 정합니다.',h:()=>`<div class="ph">이용약관은 회원가입을 여는 때 함께 게시합니다. (목적, 용어 정의, 회원가입·탈퇴, 서비스 이용, 게시물 관리, 책임 제한, 분쟁 해결)</div>`};
 
-const PRIV_ITEMS = ['개인정보의 처리 목적','처리하는 개인정보의 항목','개인정보의 처리 및 보유 기간','개인정보의 제3자 제공','개인정보 처리업무의 위탁 (수탁자: 케어씽크)','개인정보의 파기 절차 및 방법','정보주체의 권리·의무 및 행사 방법','개인정보의 안전성 확보 조치','개인정보 보호책임자 및 담당부서','권익침해 구제 방법','개인정보처리방침의 변경'];
-P['privacy'] = {t:'개인정보처리방침',lead:'회원 정보를 받는 기능은 이 방침을 게시한 뒤에 엽니다.',phase:'1단계',h:()=>`
-<p class="note"><strong>초안 목차</strong> 「개인정보 보호법」 제30조에 따라 게시할 항목입니다. 내용은 위탁계약 체결과 보호책임자 지정 후 확정합니다.</p>
-<ol class="road">${PRIV_ITEMS.map((x,i)=>`<li><b>제${i+1}조</b><div><h3>${x}</h3><p>[확정 후 기재]</p></div></li>`).join('')}</ol>`};
-P['terms'] = {t:'이용약관',lead:'홈페이지 이용 조건과 회원의 권리·의무를 정합니다.',phase:'1단계',h:()=>`<div class="ph">이용약관은 회원가입·회비 규정 확정 후 게시합니다. (목적, 용어 정의, 회원가입·탈퇴, 서비스 이용, 게시물 관리, 책임 제한, 분쟁 해결)</div>`};
-P['board-rules'] = {t:'게시판 운영규칙',lead:'모두가 안심하고 의견을 나누기 위한 규칙입니다.',phase:'1단계',h:()=>`
-<div class="card"><ul><li>타인의 개인정보(연락처, 주소, 건강정보)를 게시하지 않습니다.</li><li>비방, 광고, 허위 정보는 사전 안내 없이 비공개 처리할 수 있습니다.</li><li>건강 상담은 일반 정보 제공에 그치며 진료를 대신하지 않습니다.</li><li>답변 책임자가 지정된 글은 처리상태가 표시됩니다.</li></ul></div>
-<p class="muted" style="font-size:.875rem">초안입니다. 협회 승인 후 확정합니다.</p>`};
-
-const CHECK = ['협회 공식 로고 원본 및 표준 색상','회장 공식 프로필 사진과 인사말 최종본','설립연혁 및 설립 목적','조직도·임원 직책·공개 승인된 명단','협회 주소·전화·대표 이메일','정관 및 회원가입·회비 규정','3대 핵심사업 소개자료 및 사진','교육과정·수료확인·자료 배포 기준','개인정보처리방침 및 게시판 운영규칙','홈페이지 운영 담당자와 게시물 승인체계'];
-P['roadmap'] = {t:'홈페이지 구축 로드맵',lead:'안내용 홈페이지를 먼저 열고, 개인정보 보호체계를 갖춘 뒤 회원 기능을 단계적으로 엽니다.',phase:'1단계',h:()=>`
-<ol class="road">
-  <li class="now"><b>1단계</b><div><h3>공식 홈페이지 개설</h3><p>협회 소개, 회장 인사말, 조직도, 3대 핵심사업, 공지사항, 공개 자료실, 회원가입 안내, 문의 및 개인정보 보호체계</p></div></li>
-  <li><b>2단계</b><div><h3>교육·회원 운영시스템</h3><p>교육신청·접수, 회원 전용 자료실, 수료내역, 회원 의견란, 기관인증 신청 및 관리</p></div></li>
-  <li><b>3단계</b><div><h3>낙상예방 전문 플랫폼</h3><p>K-Fall Fit 콘텐츠, 낙상위험 자가점검 고도화, 지역별 협력사업 현황, 연구·정책자료, 교육성과 관리</p></div></li>
+const CHECK = ['협회 공식 로고 원본 및 표준 색상','회장 공식 프로필 사진과 인사말 최종본','설립연혁 및 설립 목적','조직도·임원 직책·공개 승인된 명단','협회 주소·전화·대표 이메일','정관 및 회원가입·회비 규정','3대 핵심사업 소개자료 및 사진','교육과정·수료확인·자료 배포 기준','개인정보 처리방침, 보호책임자 지정, 위탁 계약','홈페이지 운영 담당자와 게시물 승인체계'];
+const OPEN_Q = ['메뉴별 단계 구분 확정 (아래 표)','기관회원과 관리자 권한 분리 확인','‘연구자’ 역할 정의','K-Fall Fit 줄의 ‘DW’ 의미','지도자 자격 검증을 누가 확인하는지 (본인만 / 기관 포함)','교육 신청·기관인증·마이페이지·인증서 발급 권한'];
+P['roadmap'] = {t:'구축 로드맵·단계 구분',ph:1,lead:'1단계 메뉴는 구축·운영 협약서의 무상 범위로, 2단계 이후 메뉴는 정식 계약 범위로 나눕니다.',h:()=>{
+  const rows = MENU.map((m,i)=>{
+    const one = m.items.filter(x=>P[x[0]].ph===1).map(x=>x[1].replace(/^[①-⑤] /,'')+(P[x[0]].dag?' †':''));
+    const two = m.items.filter(x=>P[x[0]].ph===2).map(x=>x[1].replace(/^[①-⑤] /,'')+(P[x[0]].road?` <span class="muted">(${P[x[0]].road})</span>`:''));
+    const extra2 = {biz:'사업제안 담당자 지정·답변 처리',info:'K-Fall Fit 회원 등급별 열람',member:'정회원 관리',research:'정회원·연구자 전용 자료 <span class="muted">(로드맵 3단계)</span>'}[m.id];
+    if(extra2) two.push(extra2);
+    return `<tr><td><b>${i+1} ${m.label}</b></td><td>${one.join(', ')||'—'}</td><td>${two.join(', ')||'—'}</td></tr>`;
+  }).join('');
+  return `
+<section><h2>메뉴별 단계 구분</h2>
+<div class="tbl-wrap"><table><thead><tr><th>메뉴</th><th>1단계 · 무상 구축<br><span class="muted" style="font-weight:400">누구나 보는 안내·자료, 공지, 가입, 문의</span></th><th>2단계 이후 · 정식 계약<br><span class="muted" style="font-weight:400">로그인, 신청 처리, 개인 기록 저장</span></th></tr></thead><tbody>${rows}</tbody></table></div>
+<p class="muted" style="font-size:.875rem;margin-top:8px">† 이름·연락처를 받는 기능은 개인정보 처리방침 공개와 위탁 계약 체결 후 엽니다. 2단계 이후 메뉴는 오픈 때 ‘준비 중’ 안내만 둡니다. 상단의 ‘오픈 화면’ 버튼으로 실제 오픈 모습을 볼 수 있습니다.</p></section>
+<section><h2>앞으로의 순서</h2><ol class="steps" style="grid-template-columns:repeat(3,1fr)"><li><b>단계 구분 확정</b><span>위 표를 협회와 함께 확정합니다.</span></li><li><b>1단계 구축</b><span>확정된 1단계 메뉴를 구축·운영 협약서의 무상 범위로 씁니다.</span></li><li><b>2단계 정식 계약</b><span>2단계 이후 메뉴는 정식 계약 때 권한표를 보완해 확정합니다.</span></li></ol></section>
+<section><h2>협회가 정해 주실 사항</h2><ul class="cl">${OPEN_Q.map(q=>`<li><label><span class="tag warn">확정 필요</span><span>${q}</span></label></li>`).join('')}</ul><p style="margin-top:10px"><a class="more" href="#member-roles">권한표 검토안 보기 →</a></p></section>
+<section><h2>전체 로드맵</h2><ol class="road">
+  <li class="now"><b>1단계</b><div><h3>공식 홈페이지 개설</h3><p>협회 소개, 인사말, 조직도, 3대 핵심사업, 공지사항, 공개 자료, 준회원 가입, 문의 및 개인정보 보호체계</p></div></li>
+  <li><b>2단계</b><div><h3>교육·회원 운영시스템</h3><p>교육신청·접수, 회원 전용 자료, 수료내역, 소통마당 게시판, 기관인증 신청 및 관리</p></div></li>
+  <li><b>3단계</b><div><h3>낙상예방 전문 플랫폼</h3><p>낙상위험 자가점검, K-Fall Fit 등급별 콘텐츠, 연구·정책 전용 자료, 교육성과 관리</p></div></li>
   <li><b>4단계</b><div><h3>전국 단위 통합 플랫폼</h3><p>지역지부 관리, 체험관 예약·운영, 데이터 기반 사업평가, 개인별 예방지원 기능</p></div></li>
-</ol>
-<section><h2>회원 기능을 열기 전에 마칠 일</h2><div class="grid4">
-  <div class="card"><h3>위탁 계약</h3><p>개인정보 처리업무 위탁 계약 체결</p></div>
-  <div class="card"><h3>보호책임자 지정</h3><p>협회 내 개인정보 보호책임자 지정</p></div>
-  <div class="card"><h3>처리방침 게시</h3><p>개인정보처리방침·이용약관 게시</p></div>
-  <div class="card"><h3>보안 점검</h3><p>권한 설정·접근통제 점검 후 오픈</p></div>
-</div></section>
+</ol></section>
 <section><h2>공식 개설 전 준비 체크리스트</h2><div class="progress" style="margin-bottom:12px"><span id="clCount">0/10 완료</span><div class="meter"><i id="clBar" style="width:0"></i></div></div>
 <ul class="cl" id="cl">${CHECK.map((c,i)=>`<li><label for="cl${i}"><input type="checkbox" id="cl${i}" data-i="${i}"><span>${c}</span></label></li>`).join('')}</ul>
-<p class="muted" style="font-size:.8125rem;margin-top:8px">체크 상태는 이 브라우저에만 저장됩니다.</p></section>`};
+<p class="muted" style="font-size:.8125rem;margin-top:8px">체크 상태는 이 브라우저에만 저장됩니다.</p></section>`;}};
 
 /* ───────── 렌더링 ───────── */
 const main = $('#main');
@@ -944,31 +998,35 @@ function render(){
   let id = (location.hash||'').replace('#','') || 'home';
   if(id==='main') return;
   const top = MENU.find(m=>m.id===id); if(top) id = top.items[0][0];
+  buildMenus();
   if(id==='home' || !P[id]){ main.innerHTML = homeHTML(); setCurrent(null); document.title='대한노인낙상예방협회'; return afterRender('home'); }
   const pg = P[id], par = findParent(id);
   const sibs = par ? par.items : EXTRA;
   const secLabel = par ? par.label : '홈페이지 안내';
+  const soon = MODE==='open' && pg.ph===2;
+  const body = soon ? `<div class="soon"><span class="eyebrow">준비 중</span><h2>이 메뉴는 준비 중입니다</h2><p>${pg.lead}</p><p class="muted">회원 시스템과 함께 순차적으로 열 예정입니다. 문의는 대표 이메일로 보내 주세요.</p></div>${pg.openExtra||''}` : pg.h();
   main.innerHTML = `
 <div class="sub-head"><div class="wrap">
   <nav class="crumb" aria-label="현재 위치"><a href="#home">홈</a><span>›</span><span>${secLabel}</span><span>›</span><span aria-current="page">${pg.t}</span></nav>
-  <h1>${pg.t}${pg.phase&&pg.phase!=='1단계'?`<span class="phase">${pg.phase} 개설 예정</span>`:''}</h1>
-  <p>${pg.lead}</p>
+  <h1>${pg.t}${MODE==='plan'?phTag(pg):''}</h1>
+  ${soon?'':`<p>${pg.lead}</p>`}
 </div></div>
 <div class="wrap sub-body">
-  <aside class="lnb" aria-label="${secLabel} 하위 메뉴"><h2>${secLabel}</h2><ul>${sibs.map(s=>`<li><a href="#${s[0]}" ${s[0]===id?'aria-current="page"':''}>${s[1]}</a></li>`).join('')}</ul></aside>
-  <div class="content">${pg.h()}</div>
+  <aside class="lnb" aria-label="${secLabel} 하위 메뉴"><h2>${secLabel}</h2><ul>${sibs.map(s=>`<li><a href="#${s[0]}" ${s[0]===id?'aria-current="page"':''}>${s[1]}${mtag(s[0])}</a></li>`).join('')}</ul></aside>
+  <div class="content">${body}</div>
 </div>`;
   setCurrent(par?par.id:null);
   document.title = pg.t+' | 대한노인낙상예방협회';
-  afterRender(id);
+  afterRender(soon?'soon':id);
 }
 function setCurrent(pid){ document.querySelectorAll('.gnb-top').forEach(a=>a.setAttribute('aria-current', a.dataset.id===pid?'true':'false')); }
+function mtag(id){ const pg=P[id]; if(!pg||pg.ph!==2) return ''; return `<span class="mtag">${MODE==='open'?'준비 중':'2단계'}</span>`; }
 
 function afterRender(id){
   closeMega(); closeDrawer();
   window.scrollTo(0,0);
   if(id==='selfcheck') initSelfCheck();
-  if(id==='library') initFilter('libTabs','libBody',f=>LIB.filter(x=>f==='전체'||x.perm===f).map(x=>`<tr><td><b>${esc(x.t)}</b></td><td>${esc(x.org)}</td><td class="num">${x.d}</td><td class="num">v${esc(x.v)}</td><td>${esc(x.to)}</td><td class="muted">${esc(x.cr)}</td><td>${permTag(x.perm)}</td><td>${x.perm==='공개'?'<button class="btn btn-sm btn-ghost" type="button" data-dl>받기</button>':'<span class="lock">'+I.lock+' 로그인</span>'}</td></tr>`).join(''));
+  if(id==='research-library') initFilter('libTabs','libBody',f=>LIB.filter(x=>f==='전체'||x.perm===f).map(x=>`<tr><td><b>${esc(x.t)}</b></td><td>${esc(x.org)}</td><td class="num">${x.d}</td><td class="num">v${esc(x.v)}</td><td>${esc(x.to)}</td><td class="muted">${esc(x.cr)}</td><td>${permTag(x.perm)}</td><td>${x.perm==='공개'?'<button class="btn btn-sm btn-ghost" type="button" data-dl>받기</button>':'<span class="lock">'+I.lock+' 로그인</span>'}</td></tr>`).join(''));
   if(id==='notice') initFilter('ntTabs','ntBody',f=>NOTICES.filter(x=>f==='전체'||x.c===f).map(x=>`<tr><td><span class="tag ${x.pin?'amber':'pine'}">${x.c}</span></td><td>${x.pin?'<b>':''}${esc(x.t)}${x.pin?'</b>':''}</td><td class="num">${x.d}</td></tr>`).join('')||'<tr><td colspan="3" class="muted">해당 분류의 공지가 없습니다.</td></tr>');
   if(id==='roadmap') initChecklist();
   document.querySelectorAll('form[data-demo]').forEach(f=>f.addEventListener('submit',e=>{
@@ -976,12 +1034,12 @@ function afterRender(id){
     let m = f.querySelector('.f-msg'); if(!m){ m=document.createElement('p'); m.className='f-msg'; m.setAttribute('role','status'); f.appendChild(m); }
     m.textContent = f.dataset.demo;
   }));
-  main.querySelectorAll('[data-dl]').forEach(b=>b.addEventListener('click',()=>toast('시안 화면입니다. 실제 파일은 개설 후 제공합니다.')));
 }
+main.addEventListener('click',e=>{ if(e.target.closest('[data-dl]')) toast('시안 화면입니다. 실제 파일은 개설 후 제공합니다.'); });
 function initFilter(tabsId,bodyId,rows){
   const tabs = $('#'+tabsId), body = $('#'+bodyId);
   const draw = f=>{ body.innerHTML = rows(f); tabs.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected', t.dataset.f===f)); };
-  tabs.addEventListener('click',e=>{ const t=e.target.closest('.tab'); if(t){ draw(t.dataset.f); main.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>toast('시안 화면입니다. 실제 파일은 개설 후 제공합니다.')); }});
+  tabs.addEventListener('click',e=>{ const t=e.target.closest('.tab'); if(t) draw(t.dataset.f); });
   draw('전체');
 }
 function initSelfCheck(){
@@ -995,7 +1053,7 @@ function initSelfCheck(){
     <div class="meter" aria-hidden="true"><i style="width:${score/14*100}%"></i><em></em></div>
     <p class="muted" style="font-size:.8125rem">세로선은 기준점 4점입니다.</p>
     <p>${done<SC.length?'모든 질문에 답하면 결과 안내가 나옵니다.':risk?'4점 이상입니다. 가까운 보건소나 의료진과 상담하고, 균형·근력 운동과 집 안 환경 점검을 시작해 보세요.':'4점 미만입니다. 지금처럼 꾸준히 운동하고 1년에 한 번 다시 점검해 보세요.'}</p>
-    ${done===SC.length?`<div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-sm btn-primary" href="#info-home">생활환경 안전수칙</a><a class="btn btn-sm btn-ghost" href="#info-after">넘어졌을 때 대처법</a><button class="btn btn-sm btn-ghost" type="button" id="scReset">다시 하기</button></div>`:''}`;
+    ${done===SC.length?`<div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-sm btn-primary" href="#info-life">생활속 낙상예방</a><button class="btn btn-sm btn-ghost" type="button" id="scReset">다시 하기</button></div>`:''}`;
     const r = $('#scReset'); if(r) r.onclick=()=>{ ans.fill(null); $('#sc').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed','false')); show(); $('#sc').scrollIntoView(); };
   };
   $('#sc').addEventListener('click',e=>{
@@ -1019,8 +1077,10 @@ function toast(msg){ let t=$('.toast'); if(!t){ t=document.createElement('div');
 /* ───────── 메뉴 구성 ───────── */
 const hd = $('#hd');
 $('#gnb').innerHTML = MENU.map(m=>`<li><a class="gnb-top" data-id="${m.id}" href="#${m.items[0][0]}" aria-haspopup="true">${m.label}</a></li>`).join('');
-$('#megaIn').innerHTML = `<div class="mega-intro"><strong>한 걸음의 안전,<br>평생의 독립</strong><p>메뉴를 선택하면 하위 페이지로 이동합니다.</p></div>`+MENU.map(m=>`<div class="mega-col"><h3>${m.label}</h3><ul>${m.items.map(i=>`<li><a href="#${i[0]}">${i[1]}</a></li>`).join('')}</ul></div>`).join('');
-$('#drawerList').innerHTML = MENU.map(m=>`<details><summary>${m.label}</summary><ul>${m.items.map(i=>`<li><a href="#${i[0]}">${i[1]}</a></li>`).join('')}</ul></details>`).join('')+`<details><summary>홈페이지 안내</summary><ul>${EXTRA.map(i=>`<li><a href="#${i[0]}">${i[1]}</a></li>`).join('')}</ul></details>`;
+function buildMenus(){
+  $('#megaIn').innerHTML = `<div class="mega-intro"><strong>한 걸음의 안전,<br>평생의 독립</strong><p>${MODE==='plan'?'‘2단계’ 표시 메뉴는 정식 계약 이후 엽니다.':'메뉴를 선택하면 하위 페이지로 이동합니다.'}</p></div>`+MENU.map(m=>`<div class="mega-col"><h3>${m.label}</h3><ul>${m.items.map(i=>`<li><a href="#${i[0]}">${i[1]}${mtag(i[0])}</a></li>`).join('')}</ul></div>`).join('');
+  $('#drawerList').innerHTML = MENU.map(m=>`<details><summary>${m.label}</summary><ul>${m.items.map(i=>`<li><a href="#${i[0]}">${i[1]}${mtag(i[0])}</a></li>`).join('')}</ul></details>`).join('')+`<details><summary>홈페이지 안내</summary><ul>${EXTRA.map(i=>`<li><a href="#${i[0]}">${i[1]}</a></li>`).join('')}</ul></details>`;
+}
 let megaT;
 const openMega = ()=>{ clearTimeout(megaT); hd.classList.add('open'); };
 const closeMega = ()=>{ hd.classList.remove('open'); };
@@ -1041,6 +1101,12 @@ const fsBtns = document.querySelectorAll('.fs-btn');
 const setFs = v=>{ document.documentElement.dataset.fs = v; fsBtns.forEach(b=>b.setAttribute('aria-pressed', b.dataset.fs===v)); try{ localStorage.setItem('kaefp-fs',v); }catch(e){} };
 fsBtns.forEach(b=>b.addEventListener('click',()=>setFs(b.dataset.fs)));
 try{ const v = localStorage.getItem('kaefp-fs'); if(v) setFs(v); }catch(e){}
+
+/* 보기 모드: 전체 기획안 / 오픈 화면(1단계) */
+const modeBtns = document.querySelectorAll('.mode-btn');
+const setMode = v=>{ MODE = v; modeBtns.forEach(b=>b.setAttribute('aria-pressed', b.dataset.mode===v)); try{ localStorage.setItem('kaefp-mode',v); }catch(e){} };
+modeBtns.forEach(b=>b.addEventListener('click',()=>{ setMode(b.dataset.mode); render(); }));
+setMode(MODE);
 
 window.addEventListener('hashchange',render);
 render();
